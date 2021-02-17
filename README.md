@@ -91,23 +91,25 @@ WUnit™ Gadget is an Arduino based gadget that makes any motorcycle smarter. Ge
 
 ### Wiring table
 
-| Sensor  | Connection description | Arduino Pin | Sensor Pin |
-| ------- | ---------------------- | ----------- | ---------- |
-| SIM800L | Power                  |             |            |
-| SIM800L | Ground                 |             |            |
-| SIM800L | Serial (UART)          |             |            |
-| SIM800L | Serial (UART)          |             |            |
-| NEO6M   | Power                  |             |            |
-| NEO6M   | Ground                 |             |            |
-| NEO6M   | Serial (UART)          |             |            |
-| NEO6M   | Serial (UART)          |             |            |
-| SCA60C  | Power                  |             |            |
-| SCA60C  | Ground                 |             |            |
-| SCA60C  | Vo                     |             |            |
-| MicroSD | Power                  |             |            |
-| MicroSD | Ground                 |             |            |
-| MicroSD |                        |             |            |
-| MicroSD |                        |             |            |
+| Sensor  | Connection description | Controller Pin | Sensor Pin    |
+| ------- | ---------------------- | -------------- | ------------- |
+| SIM800L | Power                  |                |               |
+| SIM800L | Ground                 |                |               |
+| SIM800L | Serial (UART)          |                |               |
+| SIM800L | Serial (UART)          |                |               |
+| NEO6M   | Power                  |                |               |
+| NEO6M   | Ground                 |                |               |
+| NEO6M   | Serial (UART)          |                |               |
+| NEO6M   | Serial (UART)          |                |               |
+| SCA60C  | Power                  | 5V             | VCC           |
+| SCA60C  | Ground                 | GND            | GND           |
+| SCA60C  | Angle value            | Vo             | GPIO34 (ADC6) |
+| SCA60C  | D1 alarm               | D1             | GPIO39 (ADC3) |
+| SCA60C  | D2 alarm               | D2             | GPIO36 (ADC0) |
+| MicroSD | Power                  |                |               |
+| MicroSD | Ground                 |                |               |
+| MicroSD |                        |                |               |
+| MicroSD |                        |                |               |
 
 ## Tools
 
