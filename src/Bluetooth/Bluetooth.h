@@ -32,7 +32,7 @@
 
 
 extern BLEServer *pBLEServer;
-extern BLEAdvertising *pBLEAdvertinsing;
+extern BLEAdvertising *pBLEAdvertising;
 
 extern BLEService *pConfigService;
 extern BLEService *pDashboardService;

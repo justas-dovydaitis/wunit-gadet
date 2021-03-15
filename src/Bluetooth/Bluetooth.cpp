@@ -3,7 +3,7 @@
 uint32_t bluetoothPasskey = DEFAULT_BLUETOOTH_PASSKEY;
 
 BLEServer *pBLEServer = nullptr;
-BLEAdvertising *pBLEAdvertinsing = nullptr;
+BLEAdvertising *pBLEAdvertising = nullptr;
 
 BLEService *pConfigService = nullptr;
 BLEService *pDashboardService = nullptr;
@@ -78,8 +78,8 @@ void setupBLE()
     pConfigService->start();
     pDashboardService->start();
 
-    pBLEAdvertinsing = pBLEServer->getAdvertising();
-    pBLEAdvertinsing->start();
+    pBLEAdvertising = pBLEServer->getAdvertising();
+    pBLEAdvertising->start();
 
     setupBLESecurity();
 }

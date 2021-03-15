@@ -98,7 +98,7 @@ WUnit™ Gadget is an Arduino based gadget that makes any motorcycle smarter. Ge
 | SIM800L | Serial (UART)          |                |            |
 | SIM800L | Serial (UART)          |                |            |
 | NEOM8N  | Power                  |                |            |
-| NEOM8N | Ground                 |                |            |
+| NEOM8N  | Ground                 |                |            |
 | NEOM8N  | Serial (UART)          |                |            |
 | NEOM8N  | Serial (UART)          |                |            |
 | SCA60C  | Power                  | 5V             | VCC        |
