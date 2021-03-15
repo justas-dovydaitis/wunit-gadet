@@ -1,5 +1,5 @@
-#ifndef __WUNIT_BLUETOOTH_SECURITY_H__
-#define __WUNIT_BLUETOOTH_SECURITY_H__
+#ifndef __BLUETOOTH_SECURITY_H__
+#define __BLUETOOTH_SECURITY_H__
 
 #include <Arduino.h>
 #include <BLEDevice.h>
