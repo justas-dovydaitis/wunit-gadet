@@ -91,37 +91,32 @@ WUnit™ Gadget is an Arduino based gadget that makes any motorcycle smarter. Ge
 
 ### Wiring table
 
-| Sensor  | Connection description | Controller Pin | Sensor Pin    |
-| ------- | ---------------------- | -------------- | ------------- |
-| SIM800L | Power                  |                |               |
-| SIM800L | Ground                 |                |               |
-| SIM800L | Serial (UART)          |                |               |
-| SIM800L | Serial (UART)          |                |               |
-| NEO6M   | Power                  |                |               |
-| NEO6M   | Ground                 |                |               |
-| NEO6M   | Serial (UART)          |                |               |
-| NEO6M   | Serial (UART)          |                |               |
-| SCA60C  | Power                  | 5V             | VCC           |
-| SCA60C  | Ground                 | GND            | GND           |
-| SCA60C  | Angle value            | Vo             | GPIO34 (ADC6) |
-| SCA60C  | D1 alarm               | D1             | GPIO39 (ADC3) |
-| SCA60C  | D2 alarm               | D2             | GPIO36 (ADC0) |
-| MicroSD | Power                  |                |               |
-| MicroSD | Ground                 |                |               |
-| MicroSD |                        |                |               |
-| MicroSD |                        |                |               |
+| Sensor  | Connection description | Controller Pin | Sensor Pin |
+| ------- | ---------------------- | -------------- | ---------- |
+| SIM800L | Power                  |                |            |
+| SIM800L | Ground                 |                |            |
+| SIM800L | Serial (UART)          |                |            |
+| SIM800L | Serial (UART)          |                |            |
+| NEOM8N  | Power                  |                |            |
+| NEOM8N | Ground                 |                |            |
+| NEOM8N  | Serial (UART)          |                |            |
+| NEOM8N  | Serial (UART)          |                |            |
+| SCA60C  | Power                  | 5V             | VCC        |
+| SCA60C  | Ground                 | GND            | GND        |
+| SCA60C  | Angle value            | GPIO34 (ADC6)  | Vo         |
+| SCA60C  | D1 alarm               | NC             | Do1        |
+| SCA60C  | D2 alarm               | NC             | Do2        |
 
 ## Tools
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [PlatformIO](https://platformio.org/)
 
-## Frameworks
+## Frameworks and libraries
 
-- Arduino
-- Esp-idf
-
-## Libraries
+- [Arduino](https://www.arduino.cc/reference/en/)
+- [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
+  - [FreeRTOS™](https://www.freertos.org/)
 
 ## Code style
 

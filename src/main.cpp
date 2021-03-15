@@ -1,27 +1,41 @@
 #include <Arduino.h>
-#include <wunit-bluetooth.h>
-#include <wunit-angle.h>
 
-#define ANGLE_PIN 34
-#define ANGLE_D1_PIN 39
-#define ANGLE_D2_PIN 36
+#include "Angle/Angle.h"
+#include "Bluetooth/Bluetooth.h"
 
-WUnitAngle *angle;
-
-WUnitBluetooth *BLE;
+#include "Tasks/Tasks.h"
 
 void setup()
 {
-  angle = new WUnitAngle(ANGLE_PIN, ANGLE_D1_PIN, ANGLE_D2_PIN);
+  Serial.begin(115200);
+  setupBLE();
+  setupAngle();
 
-  BLE = new WUnitBluetooth();
+  xTaskCreate(taskUpdateAngleValue,
+              "UPDATE_ANGLE",
+              4096,
+              nullptr,
+              tskIDLE_PRIORITY,
+              &angleTaskHandle);
+  xTaskCreate(taskUpdateTachValue,
+              "UPDATE_TACH",
+              4096,
+              nullptr,
+              tskIDLE_PRIORITY,
+              &angleTaskHandle);
+  xTaskCreate(taskUpdateSpeedValue,
+              "UPDATE_SPEED",
+              4096,
+              nullptr,
+              tskIDLE_PRIORITY,
+              &angleTaskHandle);
+  xTaskCreate(taskUpdateOdometerValue,
+              "UPDATE_ODOMETER",
+              4096,
+              nullptr,
+              tskIDLE_PRIORITY,
+              &angleTaskHandle);
 }
-
 void loop()
 {
-    // Test angle;
-    delay(1000);
-
-    Serial.print("angle: ");
-    Serial.println(angle->getAngle());
 }
