@@ -14,6 +14,7 @@ void taskUpdateAngleValue(void *param)
     {
         currentAngle = String(getCurrentAngle());
         pAngleCharacteristic->setValue(currentAngle.c_str());
+        pAngleCharacteristic->notify();
         vTaskDelay(pdMS_TO_TICKS(500));
     }
     vTaskDelete(NULL);
@@ -45,6 +46,7 @@ void taskUpdateTachValue(void *param)
         currentVal = random(minTach, maxTach);
 
         pTachometerCharacteristic->setValue(String(currentVal).c_str());
+        pTachometerCharacteristic->notify();
         vTaskDelay(pdMS_TO_TICKS(500));
     }
     vTaskDelete(NULL);
@@ -56,7 +58,7 @@ void taskUpdateOdometerValue(void *param)
     {
         currentVal += 0.1;
         pOdometerCharacteristic->setValue(String(currentVal).c_str());
-
+        pOdometerCharacteristic->notify();
         vTaskDelay(pdMS_TO_TICKS(7000));
     }
     vTaskDelete(NULL);
