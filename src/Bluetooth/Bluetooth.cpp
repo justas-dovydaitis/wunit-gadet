@@ -71,6 +71,7 @@ void setupBLE()
     BLEDevice::setSecurityCallbacks(new BTSecurity());
 
     pBLEServer = BLEDevice::createServer();
+    pBLEServer->setCallbacks(new ServerCallbacks());
 
     setupBLEServices();
     setupBLECharacteristics();

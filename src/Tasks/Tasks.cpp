@@ -1,6 +1,7 @@
 #include "Tasks.h"
 #include "Angle/Angle.h"
 #include "Bluetooth/Bluetooth.h"
+#include <FreeRTOS.h>
 
 TaskHandle_t angleTaskHandle = NULL;
 TaskHandle_t speedTaskHandle = NULL;
@@ -13,6 +14,7 @@ void taskUpdateAngleValue(void *param)
     while (1)
     {
         currentAngle = String(getCurrentAngle());
+        Serial.println("Angle " + currentAngle);
         pAngleCharacteristic->setValue(currentAngle.c_str());
         pAngleCharacteristic->notify();
         vTaskDelay(pdMS_TO_TICKS(500));
@@ -51,6 +53,7 @@ void taskUpdateTachValue(void *param)
     }
     vTaskDelete(NULL);
 }
+
 void taskUpdateOdometerValue(void *param)
 {
     double currentVal = 15523.6;
@@ -62,4 +65,19 @@ void taskUpdateOdometerValue(void *param)
         vTaskDelay(pdMS_TO_TICKS(7000));
     }
     vTaskDelete(NULL);
+}
+
+void runTask(TaskFunction_t taskCode, const char *taskName, int stackSize, UBaseType_t priority, TaskHandle_t &handle)
+{
+    Serial.println("RUN TASK" + String(taskName));
+    if (handle != NULL)
+    {
+        Serial.println("RESUMING TASK");
+        vTaskResume(handle);
+    }
+    else
+    {
+        Serial.println("CREATING NEW TASK");
+        xTaskCreate(taskCode, taskName, stackSize, nullptr, priority, &handle);
+    }
 }

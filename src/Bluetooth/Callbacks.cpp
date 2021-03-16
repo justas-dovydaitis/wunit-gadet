@@ -1,4 +1,21 @@
 #include "Callbacks.h"
+#include "State/LockedState.h"
+
+
+void ServerCallbacks::onConnect(BLEServer *pServer)
+{
+
+}
+void ServerCallbacks::onConnect(BLEServer *pServer, esp_ble_gatts_cb_param_t *param)
+{
+
+}
+void ServerCallbacks::onDisconnect(BLEServer *pServer)
+{
+    setState(new LockedState);
+    Serial.println("Disconnected");
+    pServer->startAdvertising();
+}
 
 void PasswordCallbacks::onWrite(BLECharacteristic *pCharacteristic)
 {

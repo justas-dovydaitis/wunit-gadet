@@ -1,5 +1,6 @@
 
 #include "Security.h"
+#include "State/UnlockedState.h"
 
 bool BTSecurity::onConfirmPIN(uint32_t pin)
 {
@@ -31,5 +32,9 @@ void BTSecurity::onAuthenticationComplete(esp_ble_auth_cmpl_t cmpl)
         uint16_t length;
         esp_ble_gap_get_whitelist_size(&length);
         ESP_LOGD(LOG_TAG, "size: %d", length);
+
+        Serial.println("AUTH_COMPLETE");
+        setState(new UnlockedState);
+        Serial.println("Connected");
     }
 }
