@@ -2,6 +2,8 @@
 #define __UNLOCKED_STATE_H__
 
 #include "State.h"
+#include "Tasks/Tasks.h"
+#include "Controls/Controls.h"
 
 class UnlockedState : public AbstractState
 {

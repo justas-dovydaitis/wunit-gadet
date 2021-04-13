@@ -1,6 +1,9 @@
 #ifndef __STATE_H__
 #define __STATE_H__
+
 #include <Arduino.h>
+
+#include "Controls/Controls.h"
 
 class AbstractState
 {

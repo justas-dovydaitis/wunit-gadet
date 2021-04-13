@@ -7,5 +7,6 @@ void LockedState::init()
 
 void LockedState::destroy()
 {
+
     Serial.println("DESTROY Locked state");
 }

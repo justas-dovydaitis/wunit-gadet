@@ -2,7 +2,6 @@
 #define __LOCKED_STATE_H__
 
 #include "State.h"
-#include "Tasks/Tasks.h"
 
 class LockedState : public AbstractState
 {

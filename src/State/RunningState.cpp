@@ -1,9 +1,15 @@
 #include "RunningState.h"
 #include "Tasks/Tasks.h"
 
+TaskHandle_t blinkHandle;
+void RunningState::blink(void *param)
+{
+    Serial.println("Blink");
+    vTaskDelay(pdMS_TO_TICKS(1000));
+}
+
 void RunningState::init()
 {
-
     Serial.println("INIT Running state");
     runTask(taskUpdateAngleValue, "UPDATE_ANGLE", 4096, tskIDLE_PRIORITY, angleTaskHandle);
     runTask(taskUpdateSpeedValue, "UPDATE_SPEED", 4096, tskIDLE_PRIORITY, speedTaskHandle);

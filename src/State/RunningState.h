@@ -8,6 +8,7 @@ class RunningState : public AbstractState
 public:
     void init();
     void destroy();
+    static void blink(void *param);
 };
 
 #endif

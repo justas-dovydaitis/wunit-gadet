@@ -200,3 +200,4 @@ For example `feature-add-bluetooth-communication` or `fix-gyroscope-drifting`
 ## Sources
 
 - [PlatformIO Documentation](https://docs.platformio.org/)
+- [IO Expander board] (https://create.arduino.cc/projecthub/xreef/pcf8575-i2c-16-bit-digital-input-output-expander-48a7c6)
