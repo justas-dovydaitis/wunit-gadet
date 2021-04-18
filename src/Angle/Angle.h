@@ -3,9 +3,6 @@
 
 #include <Arduino.h>
 
-#define ANGLE_PIN 34
-#define ANGLE_D1_PIN 39
-#define ANGLE_D2_PIN 36
 #define DEFAULT_ANGLE_COMPENSATE 0
 #define RADIAN 57.292779524
 

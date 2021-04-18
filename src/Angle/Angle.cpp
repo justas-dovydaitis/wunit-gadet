@@ -1,4 +1,5 @@
 #include "Angle.h"
+#include "IOConfig/IOConfig.h"
 
 long angleCompensate;
 
@@ -9,7 +10,7 @@ void setupAngle()
 
 long getCurrentAngle()
 {
-    long angleValue = analogRead(ANGLE_PIN);
+    long angleValue = analogRead(PIN_INPUT_ANGLE);
 
     long minAnalogReadValue = 0;
     long maxAnalogReadValue = 4095;

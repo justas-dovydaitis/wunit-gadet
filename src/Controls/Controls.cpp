@@ -1,59 +1,217 @@
 #include "Controls.h"
+#include "IOConfig/IOConfig.h"
 
-#define INCLUDE_xTaskResumeFromISR 1
-
-Button::Button(TaskFunction_t assignedTask) : _assignedTask(assignedTask)
+Control::Control() {}
+Control::Control(uint16_t inputBitMask,
+                 const bool activeLow,
+                 const bool pullupActive)
+    : _inputBitMask(inputBitMask)
 {
-    if (!_taskHandle)
+    _buttonPressed = activeLow ? LOW : HIGH;
+}
+
+void Control::setDebounceTime(ulong millis)
+{
+    _debounceTime = millis;
+}
+
+void Control::setClickTime(ulong millis)
+{
+    _clickTime = millis;
+}
+
+void Control::setPressTime(ulong millis)
+{
+    _pressTime = millis;
+}
+
+void Control::attachPress(ControlFunction_t func)
+{
+    _clickFunc = func;
+}
+
+void Control::attachDoublePress(ControlFunction_t func)
+{
+    _doubleClickFunc = func;
+}
+
+void Control::attachDuringLongPress(ControlFunction_t func)
+{
+    _duringLongPressFunc = func;
+}
+
+void Control::attachLongPressStart(ControlFunction_t func)
+{
+    _longPressStartFunc = func;
+}
+
+void Control::attachLongPressStop(ControlFunction_t func)
+{
+    _longPressStopFunc = func;
+}
+
+void Control::reset(void)
+{
+    _state = CONTROL_STATE_INIT;
+    _lastState = CONTROL_STATE_INIT;
+    _nClicks = 0;
+    _startTime = 0;
+}
+
+void Control::setState(ControlState_t newState)
+{
+    _lastState = _state;
+    _state = newState;
+}
+
+int Control::getNumberClicks(void)
+{
+    return _nClicks;
+}
+
+void Control::check(void)
+{
+    uint16_t pinVal = ioExpander.read16();
+    check(pinVal == _inputBitMask);
+}
+
+void Control::check(bool activeLevel)
+{
+    ulong currentTime = millis();
+    ulong waitTime = currentTime - _startTime;
+
+    switch (_state)
     {
-        TaskHandle_t handle;
-        xTaskCreate(_assignedTask, "", 2048, nullptr, tskIDLE_PRIORITY, &handle);
-        vTaskSuspend(handle);
-        _taskHandle = handle;
-    }
-}
-
-MomentaryButton::MomentaryButton(TaskFunction_t assignedTask) : Button(assignedTask) {}
-
-void MomentaryButton::switchOn()
-{
-    xTaskResumeFromISR(_taskHandle);
-}
-
-void MomentaryButton::switchOff()
-{
-    vTaskSuspend(_taskHandle);
-}
-
-LatchingButton::LatchingButton(TaskFunction_t assignedTask) : Button(assignedTask) {}
-
-void LatchingButton::switchOn()
-{
-    BaseType_t xYieldRequired;
-    Serial.println("SWITCH ON ENTER" + (int)LatchingButton::_taskHandle);
-    if (_taskHandle)
-    {
-        Serial.println("TASK RESUME" + (int)_taskHandle);
-
-
-        xYieldRequired = xTaskResumeFromISR(_taskHandle);
-        _status = true;
-        if (xYieldRequired == pdTRUE)
+    case CONTROL_STATE_INIT:
+        if (activeLevel)
         {
-            portYIELD_FROM_ISR();
+            setState(CONTROL_STATE_DOWN);
+            _startTime = currentTime;
+            _nClicks = 0;
         }
+        break;
+    case CONTROL_STATE_DOWN:
+
+        if ((!activeLevel) && (waitTime < _debounceTime))
+        {
+            setState(_lastState);
+        }
+        else if (!activeLevel)
+        {
+            setState(CONTROL_STATE_UP);
+            _startTime = currentTime;
+        }
+        else if ((activeLevel) && (waitTime > _pressTime))
+        {
+            if (_longPressStartFunc)
+            {
+                _longPressStartFunc();
+            }
+            if (_paramLongPressStartFunc)
+            {
+                _paramLongPressStartFunc(_longPressStartFuncParam);
+            }
+            setState(CONTROL_STATE_PRESS);
+        }
+        break;
+    case CONTROL_STATE_UP:
+
+        if ((activeLevel) && (waitTime < _debounceTime))
+        {
+            setState(_lastState);
+        }
+        else if (waitTime >= _debounceTime)
+        {
+            _nClicks++;
+            setState(CONTROL_STATE_COUNT);
+        }
+        break;
+
+    case CONTROL_STATE_COUNT:
+        if (activeLevel)
+        {
+            setState(CONTROL_STATE_DOWN);
+            _startTime = currentTime;
+        }
+        else if ((waitTime > _clickTime) || (_nClicks == _maxClicks))
+        {
+            if (_nClicks == 1)
+            {
+                if (_clickFunc)
+                {
+                    _clickFunc();
+                }
+                if (_paramClickFunc)
+                {
+                    _paramClickFunc(_clickFuncParam);
+                }
+            }
+            else if (_nClicks == 2)
+            {
+                if (_doubleClickFunc)
+                {
+                    _doubleClickFunc();
+                }
+                if (_paramDoubleClickFunc)
+                {
+                    _paramDoubleClickFunc(_doubleClickFuncParam);
+                }
+            }
+            reset();
+        }
+        break;
+
+    case CONTROL_STATE_PRESS:
+        if (!activeLevel)
+        {
+            setState(CONTROL_STATE_PRESS_END);
+            _startTime = currentTime;
+        }
+        else
+        {
+            if (_duringLongPressFunc)
+            {
+                _duringLongPressFunc();
+            }
+            if (_paramDuringLongPressFunc)
+            {
+                _paramDuringLongPressFunc(_duringLongPressFuncParam);
+            }
+        }
+        break;
+
+    case CONTROL_STATE_PRESS_END:
+        if (activeLevel && (waitTime < _debounceTime))
+        {
+            setState(_lastState);
+        }
+        else if (waitTime >= _debounceTime)
+        {
+            if (_longPressStopFunc)
+            {
+                _longPressStopFunc();
+            }
+            if (_paramLongPressStopFunc)
+            {
+                _paramLongPressStopFunc(_longPressStopFuncParam);
+            }
+            reset();
+        }
+        break;
+
+    default:
+        setState(CONTROL_STATE_INIT);
+        break;
     }
-    Serial.println("SWITCH ON EXIT");
 }
 
-void LatchingButton::switchOff()
-{
-    Serial.println("SWITCH OFF ENTER");
-    if (_taskHandle)
-    {
-        Serial.println("TASK Suspend");
-        xTaskResumeFromISR(_taskHandle);
-        _status = true;
-    }
-    Serial.println("SWITCH OFF EXIT");
-}
+Control controls[] = {
+    Control(makeWord(B11111111, B11111110)),
+    // Control(2),
+    // Control(4),
+    // Control(8),
+    // Control(16),
+    // Control(32),
+    // Control(64),
+    // Control(128)
+};

@@ -1,4 +1,6 @@
 #include "RunningState.h"
+#include "Interrupts/ISRs.h"
+#include "IOConfig/IOConfig.h"
 #include "Tasks/Tasks.h"
 
 TaskHandle_t blinkHandle;
@@ -19,7 +21,16 @@ void RunningState::init()
 
 void RunningState::destroy()
 {
+
     Serial.println("DESTROY Running state");
+
+    // detachInterrupt(digitalPinToInterrupt(PIN_INPUT_LOCK));
+    // detachInterrupt(digitalPinToInterrupt(PIN_INPUT_LIGHT));
+    // detachInterrupt(digitalPinToInterrupt(PIN_INPUT_LEFT_TURN));
+    // detachInterrupt(digitalPinToInterrupt(PIN_INPUT_RIGHT_TURN));
+    // detachInterrupt(digitalPinToInterrupt(PIN_INPUT_KILL));
+    // detachInterrupt(digitalPinToInterrupt(PIN_INPUT_HIGH_BEAM));
+
     vTaskSuspend(angleTaskHandle);
     vTaskSuspend(speedTaskHandle);
     vTaskSuspend(tachTaskHandle);

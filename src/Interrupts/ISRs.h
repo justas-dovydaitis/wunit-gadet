@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 
-extern void IRAM_ATTR ISRLeftTurn();
-extern void IRAM_ATTR ISRRightTurn();
+void IRAM_ATTR ISRAlarm();
 
 #endif
