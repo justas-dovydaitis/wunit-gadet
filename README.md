@@ -117,6 +117,7 @@ WUnit™ Gadget is an Arduino based gadget that makes any motorcycle smarter. Ge
 - [Arduino](https://www.arduino.cc/reference/en/)
 - [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
   - [FreeRTOS™](https://www.freertos.org/)
+- [PCF8574 library](https://github.com/xreef/PCF8574_library)
 
 ## Code style
 
@@ -200,4 +201,5 @@ For example `feature-add-bluetooth-communication` or `fix-gyroscope-drifting`
 ## Sources
 
 - [PlatformIO Documentation](https://docs.platformio.org/)
-- [IO Expander board] (https://create.arduino.cc/projecthub/xreef/pcf8575-i2c-16-bit-digital-input-output-expander-48a7c6)
+- [IO Expander board](https://create.arduino.cc/projecthub/xreef/pcf8575-i2c-16-bit-digital-input-output-expander-48a7c6)
+- [Button combo click logic inspiration](http://www.mathertel.de/Arduino/OneButtonLibrary.aspx)
