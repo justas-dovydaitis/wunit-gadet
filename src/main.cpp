@@ -2,7 +2,7 @@
 
 #include "Angle/Angle.h"
 #include "Bluetooth/Bluetooth.h"
-#include "State/LockedState.h"
+#include "States/LockedState.h"
 
 #include "IOConfig/IOConfig.h"
 

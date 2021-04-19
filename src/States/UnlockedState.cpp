@@ -1,6 +1,7 @@
 #include "Interrupts/ISRs.h"
 #include "IOConfig/IOConfig.h"
 #include "Tasks/Tasks.h"
+#include "Tasks/AngleTask.h"
 #include "UnlockedState.h"
 
 void UnlockedState::init()

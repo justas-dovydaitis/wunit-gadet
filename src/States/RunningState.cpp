@@ -1,6 +1,10 @@
 #include "RunningState.h"
 #include "Interrupts/ISRs.h"
 #include "IOConfig/IOConfig.h"
+#include "Tasks/AngleTask.h"
+#include "Tasks/OdometerTask.h"
+#include "Tasks/SpeedTask.h"
+#include "Tasks/TachTask.h"
 #include "Tasks/Tasks.h"
 
 TaskHandle_t blinkHandle;

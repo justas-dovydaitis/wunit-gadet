@@ -1,11 +1,7 @@
-#include "ControlTasks.h"
-#include "IOConfig/IOConfig.h"
+#include "ControlTask.h"
+#include "Controls/Controls.h"
 
 TaskHandle_t controlsTaskHandle = NULL;
-portMUX_TYPE IICMutex = portMUX_INITIALIZER_UNLOCKED;
-
-bool controlTriggered = false;
-ulong controlLastTriggered = 0;
 
 void taskControls(void *param)
 {
