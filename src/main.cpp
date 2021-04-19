@@ -2,37 +2,12 @@
 
 #include "Angle/Angle.h"
 #include "Bluetooth/Bluetooth.h"
+#include "Commands/CloseOutputCommand.h"
+#include "Commands/LockBikeCommand.h"
+#include "Commands/OpenOutputCommand.h"
 #include "States/LockedState.h"
-
 #include "IOConfig/IOConfig.h"
-
 #include "Tasks/Tasks.h"
-void LongPress()
-{
-
-  Serial.println("LongPress");
-}
-void Click()
-{
-
-  Serial.println("Click");
-}
-void DoubleClick()
-{
-  Serial.println("Double Click");
-}
-void WhileStart()
-{
-  Serial.println("Press started");
-}
-void During()
-{
-  Serial.println(" now Presing");
-}
-void WhileStop()
-{
-  Serial.println("Press stoped");
-}
 
 void setup()
 {
@@ -42,11 +17,12 @@ void setup()
   setupAngle();
   setState(new LockedState);
 
-  controls[0].attachPress(Click);
-  controls[0].attachDoublePress(DoubleClick);
-  controls[0].attachDuringLongPress(During);
-  controls[0].attachLongPressStart(WhileStart);
-  controls[0].attachLongPressStop(WhileStop);
+  controls[0].attachPress(new OpenOutputCommand(PIN_OUTPUT_HORN));
+  controls[0].attachDoublePress(new CloseOutputCommand(PIN_OUTPUT_HORN));
+  controls[0].attachLongPressStop(new LockBikeCommand);
+  // controls[0].attachDuringLongPress(During);
+  // controls[0].attachLongPressStart(WhileStart);
+  // controls[0].attachLongPressStop(WhileStop);
 
   vTaskDelete(NULL);
 }

@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <FreeRTOS.h>
 
+#include "Commands/Command.h"
+
 #define MAX_CONTROLS 8
 
 typedef uint8_t ControlMode_t;
@@ -19,11 +21,11 @@ public:
     void setClickTime(const ulong millis);
     void setPressTime(const ulong millis);
 
-    void attachPress(ControlFunction_t func);
-    void attachDoublePress(ControlFunction_t func);
-    void attachLongPressStart(ControlFunction_t func);
-    void attachLongPressStop(ControlFunction_t func);
-    void attachDuringLongPress(ControlFunction_t func);
+    void attachPress(Command *func);
+    void attachDoublePress(Command *func);
+    void attachLongPressStart(Command *func);
+    void attachLongPressStop(Command *func);
+    void attachDuringLongPress(Command *func);
 
     void check(void);
     void check(bool level);
@@ -32,36 +34,19 @@ public:
     bool isLongPressed() const { return _state == CONTROL_STATE_PRESS; };
 
 private:
-    uint16_t _inputBitMask;        
+    uint16_t _inputBitMask;
     unsigned int _debounceTime = 10; // number of ticks for debounce times.
     unsigned int _clickTime = 600;   // number of msecs before a click is detected.
     unsigned int _pressTime = 700;   // number of msecs before a long button press is detected
 
     int _buttonPressed;
 
-    ControlFunction_t _clickFunc = NULL;
-    ControlFunctionWithParam_t _paramClickFunc = NULL;
-    void *_clickFuncParam = nullptr;
-
-    ControlFunction_t _doubleClickFunc = NULL;
-    ControlFunctionWithParam_t _paramDoubleClickFunc = NULL;
-    void *_doubleClickFuncParam = nullptr;
-
-    ControlFunction_t _multiClickFunc = NULL;
-    ControlFunctionWithParam_t _paramMultiClickFunc = NULL;
-    void *_multiClickFuncParam = nullptr;
-
-    ControlFunction_t _longPressStartFunc = NULL;
-    ControlFunctionWithParam_t _paramLongPressStartFunc = NULL;
-    void *_longPressStartFuncParam = nullptr;
-
-    ControlFunction_t _longPressStopFunc = NULL;
-    ControlFunctionWithParam_t _paramLongPressStopFunc = NULL;
-    void *_longPressStopFuncParam = nullptr;
-
-    ControlFunction_t _duringLongPressFunc = NULL;
-    ControlFunctionWithParam_t _paramDuringLongPressFunc = NULL;
-    void *_duringLongPressFuncParam = nullptr;
+    Command *_clickFunc = nullptr;
+    Command *_doubleClickFunc = nullptr;
+    Command *_multiClickFunc = nullptr;
+    Command *_longPressStartFunc = nullptr;
+    Command *_longPressStopFunc = nullptr;
+    Command *_duringLongPressFunc = nullptr;
 
     enum ControlState_t : uint8_t
     {

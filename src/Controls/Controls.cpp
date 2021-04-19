@@ -25,27 +25,27 @@ void Control::setPressTime(ulong millis)
     _pressTime = millis;
 }
 
-void Control::attachPress(ControlFunction_t func)
+void Control::attachPress(Command *func)
 {
     _clickFunc = func;
 }
 
-void Control::attachDoublePress(ControlFunction_t func)
+void Control::attachDoublePress(Command *func)
 {
     _doubleClickFunc = func;
 }
 
-void Control::attachDuringLongPress(ControlFunction_t func)
+void Control::attachDuringLongPress(Command *func)
 {
     _duringLongPressFunc = func;
 }
 
-void Control::attachLongPressStart(ControlFunction_t func)
+void Control::attachLongPressStart(Command *func)
 {
     _longPressStartFunc = func;
 }
 
-void Control::attachLongPressStop(ControlFunction_t func)
+void Control::attachLongPressStop(Command *func)
 {
     _longPressStopFunc = func;
 }
@@ -105,12 +105,9 @@ void Control::check(bool activeLevel)
         {
             if (_longPressStartFunc)
             {
-                _longPressStartFunc();
+                _longPressStartFunc->execute();
             }
-            if (_paramLongPressStartFunc)
-            {
-                _paramLongPressStartFunc(_longPressStartFuncParam);
-            }
+
             setState(CONTROL_STATE_PRESS);
         }
         break;
@@ -139,22 +136,14 @@ void Control::check(bool activeLevel)
             {
                 if (_clickFunc)
                 {
-                    _clickFunc();
-                }
-                if (_paramClickFunc)
-                {
-                    _paramClickFunc(_clickFuncParam);
+                    _clickFunc->execute();
                 }
             }
             else if (_nClicks == 2)
             {
                 if (_doubleClickFunc)
                 {
-                    _doubleClickFunc();
-                }
-                if (_paramDoubleClickFunc)
-                {
-                    _paramDoubleClickFunc(_doubleClickFuncParam);
+                    _doubleClickFunc->execute();
                 }
             }
             reset();
@@ -171,11 +160,7 @@ void Control::check(bool activeLevel)
         {
             if (_duringLongPressFunc)
             {
-                _duringLongPressFunc();
-            }
-            if (_paramDuringLongPressFunc)
-            {
-                _paramDuringLongPressFunc(_duringLongPressFuncParam);
+                _duringLongPressFunc->execute();
             }
         }
         break;
@@ -189,12 +174,9 @@ void Control::check(bool activeLevel)
         {
             if (_longPressStopFunc)
             {
-                _longPressStopFunc();
+                _longPressStopFunc->execute();
             }
-            if (_paramLongPressStopFunc)
-            {
-                _paramLongPressStopFunc(_longPressStopFuncParam);
-            }
+
             reset();
         }
         break;

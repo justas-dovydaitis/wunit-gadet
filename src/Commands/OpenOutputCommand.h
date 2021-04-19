@@ -1,6 +1,8 @@
-#ifndef __CLOSE_OUTPUT_COMMAND_H__
-#define __CLOSE_OUTPUT_COMMAND_H__
+#ifndef __OPEN_OUTPUT_COMMAND_H__
+#define __OPEN_OUTPUT_COMMAND_H__
+
 #include "Command.h"
+
 class OpenOutputCommand : public Command
 {
 private:
