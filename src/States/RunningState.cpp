@@ -11,10 +11,6 @@
 void RunningState::init()
 {
     saveState();
-
-    pControlService->start();
-    pDashboardService->start();
-
     Serial.println("INIT Running state");
     runTask(taskUpdateAngleValue, "UPDATE_ANGLE", 4096, tskIDLE_PRIORITY, angleTaskHandle);
     runTask(taskUpdateSpeedValue, "UPDATE_SPEED", 4096, tskIDLE_PRIORITY, speedTaskHandle);

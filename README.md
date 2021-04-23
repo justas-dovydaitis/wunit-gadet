@@ -104,6 +104,7 @@ Nothing yet...
   - [FreeRTOS™](https://www.freertos.org/) - Part of [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/) framework.
 - [PCF8574 library](https://github.com/xreef/PCF8574_library) used for communication with PCF8575 16 IO expansion board.
 - [ArduinoJson](https://arduinojson.org/) save and load configurations.
+- [LittleFS](https://github.com/lorol/LITTLEFS)
 
 ## Conventions
 
@@ -210,13 +211,13 @@ For example `feature-add-bluetooth-communication` or `fix-gyroscope-drifting`
 
 ### Implemented Design patterns
 
-
 | Pattern   | Where                      | Why                                                                            |
 | --------- | -------------------------- | ------------------------------------------------------------------------------ |
 | State     | Creating device states     | For managing device behavior on different states. Whole device is based on it. |
 | Strategy  | Different button types     | Types of button should have different strategies.                              |
 | Command   | Buttons executes commands. | For better maintainability / future expandability.                             |
-| Singleton | Configuration object       | There should be only one config for whole thing                                |
+| Singleton | Configuration class        | There should be only one config for whole thing.                               |
+| Singleton | Bluetooth class            | There should be only one Bluetooth config for whole thing.                     |
 
 ### Tests
 
@@ -231,3 +232,4 @@ TODOs:
 - [PlatformIO Documentation](https://docs.platformio.org/)
 - [IO Expander board](https://create.arduino.cc/projecthub/xreef/pcf8575-i2c-16-bit-digital-input-output-expander-48a7c6)
 - [Button combo click logic inspiration](http://www.mathertel.de/Arduino/OneButtonLibrary.aspx)
+- [OTA update tutorial](https://learn.sparkfun.com/tutorials/esp32-ota-updates-over-ble-from-a-react-web-application/all)

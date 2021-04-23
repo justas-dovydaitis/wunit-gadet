@@ -5,7 +5,6 @@ TaskHandle_t speedTaskHandle = NULL;
 
 void taskUpdateSpeedValue(void *param)
 {
-
     uint minSpeed = 0;
     uint maxSpeed = 299;
     uint currentVal;
@@ -13,8 +12,8 @@ void taskUpdateSpeedValue(void *param)
     {
         currentVal = random(minSpeed, maxSpeed);
 
-        pSpeedometerCharacteristic->setValue(String(currentVal).c_str());
-        pSpeedometerCharacteristic->notify();
+        Bluetooth::getInstance()->getSpeedometerCharacteristic()->setValue(String(currentVal).c_str());
+        Bluetooth::getInstance()->getSpeedometerCharacteristic()->notify();
         vTaskDelay(pdMS_TO_TICKS(500));
     }
     vTaskDelete(NULL);

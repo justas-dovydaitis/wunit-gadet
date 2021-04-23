@@ -15,8 +15,6 @@ void setup()
 {
   Serial.begin(115200);
   setupIO();
-  setupBLE();
-  setupAngle();
   setState(new InitState);
 
   // controls[0].attachPress(new OpenOutputCommand(PIN_OUTPUT_IGNITION));

@@ -8,9 +8,6 @@
 
 void UnlockedState::init()
 {
-    pControlService->start();
-    pDashboardService->start();
-
     saveState();
     Serial.println("INIT: Unlocked state");
 

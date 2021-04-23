@@ -3,7 +3,6 @@
 
 TaskHandle_t tachTaskHandle = NULL;
 
-
 void taskUpdateTachValue(void *param)
 {
     uint minTach = 800;
@@ -13,8 +12,8 @@ void taskUpdateTachValue(void *param)
     {
         currentVal = random(minTach, maxTach);
 
-        pTachometerCharacteristic->setValue(String(currentVal).c_str());
-        pTachometerCharacteristic->notify();
+        Bluetooth::getInstance()->getTachometerCharacteristic()->setValue(String(currentVal).c_str());
+        Bluetooth::getInstance()->getTachometerCharacteristic()->notify();
         vTaskDelay(pdMS_TO_TICKS(500));
     }
     vTaskDelete(NULL);

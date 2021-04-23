@@ -17,6 +17,11 @@ uint16_t AbstractState::getStateId()
     return _currentStateId;
 }
 
+Angle *AbstractState::getAngle()
+{
+    return _angle;
+}
+
 void setState(AbstractState *pNewState)
 {
     Serial.println("IS CURRENT STATE DEFINED: " + (pCurrentState != nullptr));

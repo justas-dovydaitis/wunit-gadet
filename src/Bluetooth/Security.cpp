@@ -34,6 +34,7 @@ void BTSecurity::onAuthenticationComplete(esp_ble_auth_cmpl_t cmpl)
         ESP_LOGD(LOG_TAG, "size: %d", length);
 
         Serial.println("AUTH_COMPLETE");
+        Bluetooth::getInstance()->setConnected(true);
         setState(new UnlockedState);
         Serial.println("Connected");
     }

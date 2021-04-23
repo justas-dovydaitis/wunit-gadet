@@ -5,27 +5,58 @@
 #include <BLEDevice.h>
 #include <BLEServer.h>
 
-extern BLEServer *pBLEServer;
-extern BLEAdvertising *pBLEAdvertising;
+class Bluetooth
+{
+protected:
+    Bluetooth();
+    static Bluetooth *_pInstance;
 
-extern BLEService *pConfigService;
-extern BLEService *pControlService;
-extern BLEService *pDashboardService;
+    bool _isConnected = false;
 
-extern BLECharacteristic *pAngleCharacteristic;
-extern BLECharacteristic *pGadgetsCharacteristic;
-extern BLECharacteristic *pOdometerCharacteristic;
-extern BLECharacteristic *pSpeedometerCharacteristic;
-extern BLECharacteristic *pTachometerCharacteristic;
+    BLEServer *_pBLEServer;
+    BLEAdvertising *_pBLEAdvertising;
 
-extern BLECharacteristic *pControlCharacteristic;
+    BLEService *_pConfigService;
+    BLEService *_pControlService;
+    BLEService *_pDashboardService;
 
-extern BLECharacteristic *pConfigCharacteristic;
-extern BLECharacteristic *pPasswordCharacteristic;
+    BLECharacteristic *_pAngleCharacteristic;
+    BLECharacteristic *_pGadgetsCharacteristic;
+    BLECharacteristic *_pOdometerCharacteristic;
+    BLECharacteristic *_pSpeedometerCharacteristic;
+    BLECharacteristic *_pTachometerCharacteristic;
 
-void setupBLESecurity();
-void setupBLEServices();
-void setupBLECharacteristics();
-void setupBLE();
+    BLECharacteristic *_pControlCharacteristic;
+
+    BLECharacteristic *_pConfigCharacteristic;
+    BLECharacteristic *_pPasswordCharacteristic;
+    BLECharacteristic *_pUpdateCharacteristic;
+    BLECharacteristic *_pOTAIdCharacteristic;
+    BLECharacteristic *_pVersionCharacteristic;
+
+    void setupBLESecurity();
+    void setupBLEServices();
+    void setupBLECharacteristics();
+
+public:
+    Bluetooth(Bluetooth &other) = delete;
+    void operator=(const Bluetooth &) = delete;
+
+    static Bluetooth *getInstance();
+
+    bool isConnected();
+    void setConnected(bool connected);
+
+    BLEAdvertising *getAdvertising();
+
+    BLEService *getConfigService();
+    BLEService *getDashboardService();
+    BLEService *getControlService();
+
+    BLECharacteristic *getAngleCharacteristic();
+    BLECharacteristic *getOdometerCharacteristic();
+    BLECharacteristic *getTachometerCharacteristic();
+    BLECharacteristic *getSpeedometerCharacteristic();
+};
 
 #endif

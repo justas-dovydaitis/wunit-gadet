@@ -5,29 +5,38 @@
 #include "RunningState.h"
 #include "UnlockedState.h"
 
-const bool engineRunning = false;
-const bool btConnected = false;
-const bool keyUnlocked = false;
-const bool lastState = 1;
+#include <Preferences.h>
 
 void InitState::init()
 {
-    switch (lastState)
+    uint16_t lastState;
+    bool unlocked = _pBluetooth->isConnected() || _keyUnlocked;
+
+    Preferences preferences;
+    preferences.begin("wunit");
+    lastState = preferences.getUShort("lastState");
+    preferences.end();
+
+    if (unlocked)
     {
-    case StateId_t::RUNNING_STATE:
+        switch (lastState)
+        {
+        case StateId_t::RUNNING_STATE:
 
-        setState(new RunningState);
-        break;
+            setState(new RunningState);
+            break;
 
-    case StateId_t::UNLOCKED_STATE:
-        setState(new UnlockedState);
-        break;
+        case StateId_t::UNLOCKED_STATE:
+            setState(new UnlockedState);
+            break;
 
-    case StateId_t::IGNITION_STATE:
-        setState(new IgnitionState);
-        break;
-
-    case StateId_t ::LOCKED_STATE:
+        case StateId_t::IGNITION_STATE:
+            setState(new IgnitionState);
+            break;
+        }
+    }
+    else
+    {
         setState(new LockedState);
     }
 }

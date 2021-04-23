@@ -9,8 +9,8 @@ void taskUpdateOdometerValue(void *param)
     for (;;)
     {
         currentVal += 0.1;
-        pOdometerCharacteristic->setValue(String(currentVal).c_str());
-        pOdometerCharacteristic->notify();
+        Bluetooth::getInstance()->getOdometerCharacteristic()->setValue(String(currentVal).c_str());
+        Bluetooth::getInstance()->getOdometerCharacteristic()->notify();
         vTaskDelay(pdMS_TO_TICKS(7000));
     }
     vTaskDelete(NULL);

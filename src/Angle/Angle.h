@@ -3,14 +3,19 @@
 
 #include <Arduino.h>
 
-const double C_RADIAN = 57.292779524;
+class Angle
+{
+private:
+    long _compensate;
+    uint8_t _pinInput;
 
-extern long angleCompensate;
+public:
+    Angle(uint8_t pinInput);
 
-extern void setupAngle();
-extern long getCurrentAngle();
-extern void setAngleCompensate(float compensate);
-extern void adjustAngleCompensate(float compensateAdjustVal);
-extern void setCurrentAngleToZero();
+    long getAngle();
+    void setCompensate(float compensate);
+    void adjustCompensate(float compensateAdjustVal);
+    void setAngleToZero();
+};
 
 #endif

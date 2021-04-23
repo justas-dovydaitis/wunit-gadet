@@ -4,14 +4,14 @@
 
 long angleCompensate;
 
-void setupAngle()
+Angle::Angle(uint8_t pinInput) : _pinInput(pinInput)
 {
-    angleCompensate = Config::getInstance()->angleCompensate();
+    _compensate = Config::getInstance()->getConfig().angleCompensate;
 }
 
-long getCurrentAngle()
+long Angle::getAngle()
 {
-    long angleValue = analogRead(PIN_INPUT_ANGLE);
+    long angleValue = analogRead(_pinInput);
 
     long minAnalogReadValue = 0;
     long maxAnalogReadValue = 4095;
@@ -25,18 +25,18 @@ long getCurrentAngle()
     return currentAngle;
 }
 
-void setAngleCompensate(float compensate)
+void Angle::setCompensate(float compensate)
 {
     angleCompensate = compensate;
 }
 
-void adjustAngleCompensate(float compensateAdjustVal)
+void Angle::adjustCompensate(float compensateAdjustVal)
 {
     angleCompensate += compensateAdjustVal;
 }
 
-void setCurrentAngleToZero()
+void Angle::setAngleToZero()
 {
-    long currentAngle = getCurrentAngle();
+    long currentAngle = getAngle();
     angleCompensate -= currentAngle;
 }

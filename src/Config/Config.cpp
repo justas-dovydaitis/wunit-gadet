@@ -1,56 +1,116 @@
 #include "Config.h"
 #include "Constants.h"
-#include <SPIFFS.h>
+
+#include <LITTLEFS.h>
+
+#define FORMAT_LITTLEFS_IF_FAILED true
 
 Config *Config::_pInstance = nullptr;
 SemaphoreHandle_t Config::_mutex = xSemaphoreCreateMutex();
 
+File Config::getConfigFile(const char *mode)
+{
+    File configFile;
+
+    if (!LITTLEFS.begin(FORMAT_LITTLEFS_IF_FAILED))
+    {
+        Serial.println("LITTLEFS Mount Failed");
+    }
+
+    configFile = LITTLEFS.open("/config.json", mode);
+    if (!configFile || configFile.isDirectory())
+    {
+        Serial.println("- failed to open file for reading");
+    }
+
+    return configFile;
+}
+
 template <size_t desiredCapacity>
 StaticJsonDocument<desiredCapacity> Config::getConfigJson()
 {
-    SPIFFS.begin();
+    File configFile = getConfigFile(FILE_READ);
 
-    File file = SPIFFS.open("/config.json", FILE_READ);
+    size_t const configSize = configFile.size();
+    std::unique_ptr<char[]> buf(new char[configSize]);
+    configFile.readBytes(buf.get(), configSize);
 
     StaticJsonDocument<C_CONFIG_JSON_SIZE> json;
+    auto error = deserializeJson(json, buf.get());
 
-    /*DeserializationError error =*/deserializeJson(json, file);
-    file.close();
-
+    if (error)
+    {
+        Serial.println("Failed to parse config file");
+    }
     return json;
 }
+template <typename T>
+void Config::setValue(StaticJsonDocument<C_CONFIG_JSON_SIZE> json, T &variable, const char *key, T defaultValue)
+{
+    variable = json.containsKey(key) ? json[key].as<T>() : defaultValue;
+}
+
 void Config::loadConfigFromFile()
 {
     StaticJsonDocument<C_CONFIG_JSON_SIZE> json = getConfigJson<C_CONFIG_JSON_SIZE>();
 
-    _phoneNumber = json.containsKey("phone") ? json["phone"].as<char *>() : "";
-    _proxyPhoneNumber = json.containsKey("proxyPhone") ? json["proxyPhone"].as<char *>() : "";
+    setValue<String>(json, _configData.phoneNumber, "phone", "");
+    setValue<String>(json, _configData.proxyPhoneNumber, "proxyPhone", "");
+    setValue<uint16_t>(json, _configData.speedUpdateInterval, "speedInterval", C_DEFAULT_SPEED_UPDATE_INTERVAL);
+    setValue<uint16_t>(json, _configData.tachUpdateInterval, "tachInterval", C_DEFAULT_TACH_UPDATE_INTERVAL);
+    setValue<uint16_t>(json, _configData.odometerUpdateInterval, "odoInterval", C_DEFAULT_ODOMETER_UPDATE_INTERVAL);
+    setValue<uint>(json, _configData.panicLevelAlarmDuration, "highAlarmDuration", C_DEFAULT_PANIC_LEVEL_ALARM_DURATION);
+    setValue<uint>(json, _configData.mediumLevelAlarmDuration, "mediumAlarmDuration", C_DEFAULT_MEDIUM_LEVEL_ALARM_DURATION);
+    setValue<uint>(json, _configData.lowLevelAlarmDuration, "lowAlarmDuration", C_DEFAULT_LOW_LEVEL_ALARM_DURATION);
+    setValue<bool>(json, _configData.callOnPanicLevelAlarm, "callOnHighAlarm", C_DEFAULT_CALL_ON_PANIC_LEVEL_ALARM);
+    setValue<bool>(json, _configData.callOnMediumLevelAlarm, "callOnMediumAlarm", C_DEFAULT_CALL_ON_MEDIUM_LEVEL_ALARM);
+    setValue<bool>(json, _configData.callOnLowLevelAlarm, "callOnLowAlarm", C_DEFAULT_CALL_ON_LOW_LEVEL_ALARM);
+    setValue<bool>(json, _configData.smsOnPanicLevelAlarm, "smsOnHighAlarm", C_DEFAULT_SMS_ON_PANIC_LEVEL_ALARM);
+    setValue<bool>(json, _configData.smsOnMediumLevelAlarm, "smsOnMediumAlarm", C_DEFAULT_SMS_ON_MEDIUM_LEVEL_ALARM);
+    setValue<bool>(json, _configData.smsOnLowLevelAlarm, "smsOnLowAlarm", C_DEFAULT_SMS_ON_LOW_LEVEL_ALARM);
+    setValue<uint16_t>(json, _configData.blinkersTimeToRest, "blinkersRest", C_DEFAULT_BLINKERS_TIME_OFF);
+    setValue<uint16_t>(json, _configData.blinkersTimeToShine, "blinkersShine", C_DEFAULT_BLINKERS_TIME_ON);
+    setValue<bool>(json, _configData.killOnFall, "killOnFall", C_DEFAULT_KILL_ON_FALL);
+    setValue<bool>(json, _configData.smsOnFall, "smsOnFall", C_DEFAULT_SMS_PROXY_ON_FALL);
+    setValue<int8_t>(json, _configData.angleCompensate, "angleCompensate", C_DEFAULT_ANGLE_COMPENSATE);
+    setValue<uint16_t>(json, _configData.angleUpdateInterval, "angleInterval", C_DEFAULT_ANGLE_UPDATE_INTERVAL);
+    setValue<uint8_t>(json, _configData.maxLeanAngle, "maxAngle", C_DEFAULT_MAX_LEAN_ANGLE);
 
-    _speedUpdateInterval = json.containsKey("speedInterval") ? json["speedInterval"].as<uint16_t>() : C_DEFAULT_SPEED_UPDATE_INTERVAL;
-    _tachUpdateInterval = json.containsKey("tachInterval") ? json["tachInterval"].as<uint16_t>() : C_DEFAULT_TACH_UPDATE_INTERVAL;
-    _odometerUpdateInterval = json.containsKey("odoInterval") ? json["odoInterval"].as<uint16_t>() : C_DEFAULT_ODOMETER_UPDATE_INTERVAL;
+    // _configData.phoneNumber = json.containsKey("phone") ? json["phone"].as<String>() : "";
+    // _configData.proxyPhoneNumber = json.containsKey("proxyPhone") ? json["proxyPhone"].as<String>() : "";
 
-    _panicLevelAlarmDuration = json.containsKey("highAlarmDuration") ? json["highAlarmDuration"].as<uint>() : C_DEFAULT_PANIC_LEVEL_ALARM_DURATION;
-    _mediumLevelAlarmDuration = json.containsKey("mediumAlarmDuration") ? json["mediumAlarmDuration"].as<uint>() : C_DEFAULT_MEDIUM_LEVEL_ALARM_DURATION;
-    _lowLevelAlarmDuration = json.containsKey("lowAlarmDuration") ? json["lowAlarmDuration"].as<uint>() : C_DEFAULT_LOW_LEVEL_ALARM_DURATION;
+    // _configData.speedUpdateInterval = json.containsKey("speedInterval") ? json["speedInterval"].as<uint16_t>() : C_DEFAULT_SPEED_UPDATE_INTERVAL;
+    // _configData.tachUpdateInterval = json.containsKey("tachInterval") ? json["tachInterval"].as<uint16_t>() : C_DEFAULT_TACH_UPDATE_INTERVAL;
+    // _configData.odometerUpdateInterval = json.containsKey("odoInterval") ? json["odoInterval"].as<uint16_t>() : C_DEFAULT_ODOMETER_UPDATE_INTERVAL;
 
-    _callOnPanicLevelAlarm = json.containsKey("callOnHighAlarm") ? json["callOnHighAlarm"].as<bool>() : C_DEFAULT_CALL_ON_PANIC_LEVEL_ALARM;
-    _callOnMediumLevelAlarm = json.containsKey("callOnMediumAlarm") ? json["callOnMediumAlarm"].as<bool>() : C_DEFAULT_CALL_ON_MEDIUM_LEVEL_ALARM;
-    _callOnLowLevelAlarm = json.containsKey("callOnLowAlarm") ? json["callOnLowAlarm"].as<bool>() : C_DEFAULT_CALL_ON_LOW_LEVEL_ALARM;
+    // _configData.panicLevelAlarmDuration = json.containsKey("highAlarmDuration") ? json["highAlarmDuration"].as<uint>() : C_DEFAULT_PANIC_LEVEL_ALARM_DURATION;
+    // _configData.mediumLevelAlarmDuration = json.containsKey("mediumAlarmDuration") ? json["mediumAlarmDuration"].as<uint>() : C_DEFAULT_MEDIUM_LEVEL_ALARM_DURATION;
+    // _configData.lowLevelAlarmDuration = json.containsKey("lowAlarmDuration") ? json["lowAlarmDuration"].as<uint>() : C_DEFAULT_LOW_LEVEL_ALARM_DURATION;
 
-    _smsOnPanicLevelAlarm = json.containsKey("smsOnHighAlarm") ? json["smsOnHighAlarm"].as<bool>() : C_DEFAULT_SMS_ON_PANIC_LEVEL_ALARM;
-    _smsOnMediumLevelAlarm = json.containsKey("smsOnMediumAlarm") ? json["smsOnMediumAlarm"].as<bool>() : C_DEFAULT_SMS_ON_MEDIUM_LEVEL_ALARM;
-    _smsOnLowLevelAlarm = json.containsKey("smsOnLowAlarm") ? json["smsOnLowAlarm"].as<bool>() : C_DEFAULT_SMS_ON_LOW_LEVEL_ALARM;
+    // _configData.callOnPanicLevelAlarm = json.containsKey("callOnHighAlarm") ? json["callOnHighAlarm"].as<bool>() : C_DEFAULT_CALL_ON_PANIC_LEVEL_ALARM;
+    // _configData.callOnMediumLevelAlarm = json.containsKey("callOnMediumAlarm") ? json["callOnMediumAlarm"].as<bool>() : C_DEFAULT_CALL_ON_MEDIUM_LEVEL_ALARM;
+    // _configData.callOnLowLevelAlarm = json.containsKey("callOnLowAlarm") ? json["callOnLowAlarm"].as<bool>() : C_DEFAULT_CALL_ON_LOW_LEVEL_ALARM;
 
-    _blinkersTimeToRest = json.containsKey("blinkersRest") ? json["blinkersRest"].as<uint16_t>() : C_DEFAULT_BLINKERS_TIME_OFF;
-    _blinkersTimeToShine = json.containsKey("blinkersShine") ? json["blinkersShine"].as<uint16_t>() : C_DEFAULT_BLINKERS_TIME_ON;
+    // _configData.smsOnPanicLevelAlarm = json.containsKey("smsOnHighAlarm") ? json["smsOnHighAlarm"].as<bool>() : C_DEFAULT_SMS_ON_PANIC_LEVEL_ALARM;
+    // _configData.smsOnMediumLevelAlarm = json.containsKey("smsOnMediumAlarm") ? json["smsOnMediumAlarm"].as<bool>() : C_DEFAULT_SMS_ON_MEDIUM_LEVEL_ALARM;
+    // _configData.smsOnLowLevelAlarm = json.containsKey("smsOnLowAlarm") ? json["smsOnLowAlarm"].as<bool>() : C_DEFAULT_SMS_ON_LOW_LEVEL_ALARM;
 
-    _killOnFall = json.containsKey("killOnFall") ? json["killOnFall"].as<bool>() : C_DEFAULT_KILL_ON_FALL;
-    _smsOnFall = json.containsKey("smsOnFall") ? json["smsOnFall"].as<bool>() : C_DEFAULT_SMS_PROXY_ON_FALL;
+    // _configData.blinkersTimeToRest = json.containsKey("blinkersRest") ? json["blinkersRest"].as<uint16_t>() : C_DEFAULT_BLINKERS_TIME_OFF;
+    // _configData.blinkersTimeToShine = json.containsKey("blinkersShine") ? json["blinkersShine"].as<uint16_t>() : C_DEFAULT_BLINKERS_TIME_ON;
 
-    _angleCompensate = json.containsKey("angleCompensate") ? json["angleCompensate"].as<int8_t>() : C_DEFAULT_ANGLE_COMPENSATE;
-    _angleUpdateInterval = json.containsKey("angleInterval") ? json["angleInterval"].as<uint16_t>() : C_DEFAULT_ANGLE_UPDATE_INTERVAL;
-    _maxLeanAngle = json.containsKey("maxAngle") ? json["maxAngle"].as<uint8_t>() : C_DEFAULT_MAX_LEAN_ANGLE;
+    // _configData.killOnFall = json.containsKey("killOnFall") ? json["killOnFall"].as<bool>() : C_DEFAULT_KILL_ON_FALL;
+    // _configData.smsOnFall = json.containsKey("smsOnFall") ? json["smsOnFall"].as<bool>() : C_DEFAULT_SMS_PROXY_ON_FALL;
+
+    // _configData.angleCompensate = json.containsKey("angleCompensate") ? json["angleCompensate"].as<int8_t>() : C_DEFAULT_ANGLE_COMPENSATE;
+    // _configData.angleUpdateInterval = json.containsKey("angleInterval") ? json["angleInterval"].as<uint16_t>() : C_DEFAULT_ANGLE_UPDATE_INTERVAL;
+    // _configData.maxLeanAngle = json.containsKey("maxAngle") ? json["maxAngle"].as<uint8_t>() : C_DEFAULT_MAX_LEAN_ANGLE;
+}
+
+void Config::writeConfigToFile(const char *config)
+{
+    File configFile = getConfigFile(FILE_WRITE);
+    configFile.print(config);
+    configFile.close();
 }
 
 Config *Config::getInstance()
@@ -64,9 +124,9 @@ Config *Config::getInstance()
     return _pInstance;
 }
 
-uint8_t Config::angleCompensate()
+ConfigData Config::getConfig()
 {
-    return _angleCompensate;
+    return _configData;
 }
 
 Config::Config() {}
