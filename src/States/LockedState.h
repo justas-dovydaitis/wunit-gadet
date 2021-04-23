@@ -6,7 +6,8 @@
 class LockedState : public AbstractState
 {
 private:
-    /* data */
+    const uint16_t _currentStateId = StateId_t::LOCKED_STATE;
+
 public:
     void init();
     void destroy();

@@ -3,7 +3,8 @@
 
 LockBikeCommand::LockBikeCommand() {}
 
-void LockBikeCommand::execute() const
+void LockBikeCommand::execute()
 {
     Serial.println("LOCK BIKE");
     setState(new LockedState);
+}

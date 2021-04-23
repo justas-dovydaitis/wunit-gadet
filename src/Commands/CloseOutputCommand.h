@@ -9,7 +9,7 @@ private:
 
 public:
     explicit CloseOutputCommand(uint8_t outputPin);
-    void execute() const override;
+    void execute() override;
 };
 
 #endif

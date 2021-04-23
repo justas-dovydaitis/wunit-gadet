@@ -3,7 +3,7 @@
 
 #include "State.h"
 
-class DetectState : public AbstractState
+class InitState : public AbstractState
 {
 private:
     /* data */

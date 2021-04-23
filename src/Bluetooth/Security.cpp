@@ -5,7 +5,7 @@
 bool BTSecurity::onConfirmPIN(uint32_t pin)
 {
     return false;
-} 
+}
 
 uint32_t BTSecurity::onPassKeyRequest()
 {

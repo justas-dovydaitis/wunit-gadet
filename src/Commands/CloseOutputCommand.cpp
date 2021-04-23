@@ -5,7 +5,7 @@ CloseOutputCommand::CloseOutputCommand(uint8_t outputPin)
 {
     pinMode(outputPin, OUTPUT);
 }
-void CloseOutputCommand::execute() const
+void CloseOutputCommand::execute()
 {
     Serial.println("CLOSE OUTPUT");
     digitalWrite(_outputPin, LOW);

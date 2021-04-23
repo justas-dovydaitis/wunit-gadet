@@ -9,7 +9,7 @@ void taskControls(void *param)
     {
         for (uint16_t i = 0; i < 1; i++)
         {
-            controls[i].check();
+            // controls[i].check();
         }
         vTaskDelay(pdMS_TO_TICKS(30));
     }

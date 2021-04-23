@@ -7,7 +7,7 @@ class UnlockBikeCommand : public Command
 {
 public:
     explicit UnlockBikeCommand();
-    void execute() const override;
+    void execute() override;
 };
 
 #endif

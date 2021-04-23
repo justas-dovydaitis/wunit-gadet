@@ -1,40 +1,21 @@
 #include "State.h"
-
-void AbstractState::turnOnOutput(uint8_t outputPin)
-{
-    digitalWrite(outputPin, HIGH);
-}
-
-void AbstractState::turnOffOutput(uint8_t outputPin)
-{
-    digitalWrite(outputPin, LOW);
-}
-
-void AbstractState::turnOnOutputWithTimeout(uint8_t outputPin, ulong timeout)
-{
-    turnOnOutput(outputPin);
-    vTaskDelay(pdMS_TO_TICKS(timeout));
-    turnOffOutput(outputPin);
-}
-void AbstractState::turnOnInterval(uint8_t outputPin, ulong interval)
-{
-    for (;;)
-    {
-        turnOnOutputWithTimeout(outputPin, (interval / 2));
-        vTaskDelay(pdMS_TO_TICKS(interval / 2));
-    }
-}
-
-void AbstractState::turnOnIntervalWithTimeout(uint8_t outputPin, ulong interval, ulong timeout)
-{
-    for (;;)
-    {
-        turnOnOutputWithTimeout(outputPin, (interval / 2));
-        vTaskDelay(pdMS_TO_TICKS(interval / 2));
-    }
-}
+#include <Preferences.h>
 
 AbstractState *pCurrentState = nullptr;
+Preferences prefferences;
+
+void AbstractState::saveState()
+{
+    prefferences.begin("wunit");
+
+    prefferences.putUShort("lastState", _currentStateId);
+
+    prefferences.end();
+}
+uint16_t AbstractState::getStateId()
+{
+    return _currentStateId;
+}
 
 void setState(AbstractState *pNewState)
 {
@@ -46,4 +27,3 @@ void setState(AbstractState *pNewState)
     pCurrentState = pNewState;
     pCurrentState->init();
 }
-// TODO: Save last state to eeprom.

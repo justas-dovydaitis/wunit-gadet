@@ -8,7 +8,8 @@
 class UnlockedState : public AbstractState
 {
 private:
-    /* data */
+    const uint16_t _currentStateId = StateId_t::UNLOCKED_STATE;
+
 public:
     void init();
     void destroy();

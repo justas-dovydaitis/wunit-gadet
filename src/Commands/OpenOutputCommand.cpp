@@ -5,8 +5,8 @@ OpenOutputCommand::OpenOutputCommand(uint8_t outputPin)
 {
     pinMode(outputPin, OUTPUT);
 }
-void OpenOutputCommand::execute() const
+void OpenOutputCommand::execute()
 {
-        Serial.println("OPEN OUTPUT");
+    Serial.println("OPEN OUTPUT");
     digitalWrite(_outputPin, HIGH);
 }

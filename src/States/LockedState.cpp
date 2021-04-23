@@ -1,11 +1,16 @@
-#include "LockedState.h"
+#include "Bluetooth/Bluetooth.h"
 #include "Interrupts/ISRs.h"
 #include "IOConfig/IOConfig.h"
-#include "Tasks/Tasks.h"
+#include "LockedState.h"
 #include "Tasks/AlarmTask.h"
+#include "Tasks/Tasks.h"
 
 void LockedState::init()
 {
+    saveState();
+    pControlService->stop();
+    pDashboardService->stop();
+
     Serial.println("INIT: Locked state");
     runTask(taskAlarm, "ALARM", 4096, tskIDLE_PRIORITY, alarmTaskHandle);
 

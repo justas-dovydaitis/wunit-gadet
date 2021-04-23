@@ -1,3 +1,4 @@
+#include "Bluetooth/Bluetooth.h"
 #include "Interrupts/ISRs.h"
 #include "IOConfig/IOConfig.h"
 #include "Tasks/Tasks.h"
@@ -7,6 +8,10 @@
 
 void UnlockedState::init()
 {
+    pControlService->start();
+    pDashboardService->start();
+
+    saveState();
     Serial.println("INIT: Unlocked state");
 
     runTask(taskUpdateAngleValue, "UPDATE_ANGLE", 4096, tskIDLE_PRIORITY, angleTaskHandle);

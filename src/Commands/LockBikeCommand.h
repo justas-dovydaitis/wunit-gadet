@@ -3,12 +3,11 @@
 
 #include "Command.h"
 
-
 class LockBikeCommand : public Command
 {
 public:
     explicit LockBikeCommand();
-    void execute() const override;
+    void execute() override;
 };
 
 #endif

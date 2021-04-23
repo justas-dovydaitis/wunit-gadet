@@ -1,23 +1,38 @@
 #include "Bluetooth.h"
+#include "Callbacks.h"
+#include "Constants.h"
+#include "Security.h"
 
-uint32_t bluetoothPasskey = DEFAULT_BLUETOOTH_PASSKEY;
+#include <Preferences.h>
+
+Preferences preferences;
+
+uint32_t bluetoothPasskey = C_DEFAULT_BLUETOOTH_PASSKEY;
 
 BLEServer *pBLEServer = nullptr;
 BLEAdvertising *pBLEAdvertising = nullptr;
 
 BLEService *pConfigService = nullptr;
 BLEService *pDashboardService = nullptr;
+BLEService *pControlService = nullptr;
 
 BLECharacteristic *pAngleCharacteristic = nullptr;
 BLECharacteristic *pSpeedometerCharacteristic = nullptr;
 BLECharacteristic *pTachometerCharacteristic = nullptr;
 BLECharacteristic *pOdometerCharacteristic = nullptr;
+BLECharacteristic *pGadgetsCharacteristic = nullptr;
 
+BLECharacteristic *pControlCharacteristic = nullptr;
+
+BLECharacteristic *pConfigCharacteristic = nullptr;
 BLECharacteristic *pPasswordCharacteristic = nullptr;
 
 void setupBLESecurity()
 {
-    bluetoothPasskey = DEFAULT_BLUETOOTH_PASSKEY;
+
+    preferences.begin("wunit");
+    bluetoothPasskey = preferences.getUInt("passkey", C_DEFAULT_BLUETOOTH_PASSKEY);
+    preferences.end();
 
     esp_ble_auth_req_t auth_req = ESP_LE_AUTH_REQ_SC_MITM_BOND;
     esp_ble_io_cap_t iocap = ESP_IO_CAP_OUT;
@@ -41,27 +56,47 @@ void setupBLESecurity()
 
 void setupBLEServices()
 {
-    pDashboardService = pBLEServer->createService(DASHBOARD_SERVICE_UUID);
-    pConfigService = pBLEServer->createService(CONFIG_SERVICE_UUID);
+    pDashboardService = pBLEServer->createService(C_DASHBOARD_SERVICE_UUID);
+    pControlService = pBLEServer->createService(C_CONTROL_SERVICE_UUID);
+
+    pConfigService = pBLEServer->createService(C_CONFIG_SERVICE_UUID);
 }
 
 void setupBLECharacteristics()
 {
-    pAngleCharacteristic = pDashboardService->createCharacteristic(ANGLE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+    /**
+     *  Dashboard service characteristics.
+     */
+    pAngleCharacteristic = pDashboardService->createCharacteristic(C_ANGLE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
     pAngleCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
 
-    pSpeedometerCharacteristic = pDashboardService->createCharacteristic(SPEEDOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+    pSpeedometerCharacteristic = pDashboardService->createCharacteristic(C_SPEEDOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
     pSpeedometerCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
 
-    pTachometerCharacteristic = pDashboardService->createCharacteristic(TACHOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+    pTachometerCharacteristic = pDashboardService->createCharacteristic(C_TACHOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
     pTachometerCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
 
-    pOdometerCharacteristic = pDashboardService->createCharacteristic(ODOMETER_CHARACTERISITC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+    pOdometerCharacteristic = pDashboardService->createCharacteristic(C_ODOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
     pOdometerCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
 
-    pPasswordCharacteristic = pConfigService->createCharacteristic(PASSKEY_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_WRITE);
+    pGadgetsCharacteristic = pDashboardService->createCharacteristic(C_GADGETS_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+    pGadgetsCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
+
+    /**
+     *  Control service characteristics.
+     */
+    pControlCharacteristic = pControlService->createCharacteristic(C_CONTROL_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_WRITE);
+
+    /**
+     *  Config service characteristics.
+     */
+    pPasswordCharacteristic = pConfigService->createCharacteristic(C_PASSKEY_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_WRITE);
     pPasswordCharacteristic->setAccessPermissions(ESP_GATT_PERM_WRITE_ENC_MITM);
     pPasswordCharacteristic->setCallbacks(new PasswordCallbacks());
+
+    pConfigCharacteristic = pConfigService->createCharacteristic(C_CONFIG_SERVICE_UUID, BLECharacteristic::PROPERTY_WRITE);
+    pConfigCharacteristic->setAccessPermissions(ESP_GATT_PERM_WRITE_ENC_MITM);
+    pConfigCharacteristic->setCallbacks(new ConfigCallbacks());
 }
 
 void setupBLE()
@@ -75,9 +110,6 @@ void setupBLE()
 
     setupBLEServices();
     setupBLECharacteristics();
-
-    pConfigService->start();
-    pDashboardService->start();
 
     pBLEAdvertising = pBLEServer->getAdvertising();
     pBLEAdvertising->start();

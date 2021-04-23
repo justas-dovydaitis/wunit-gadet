@@ -1,11 +1,12 @@
 #include "Angle.h"
+#include "Config/Config.h"
 #include "IOConfig/IOConfig.h"
 
 long angleCompensate;
 
 void setupAngle()
 {
-    angleCompensate = DEFAULT_ANGLE_COMPENSATE;
+    angleCompensate = Config::getInstance()->angleCompensate();
 }
 
 long getCurrentAngle()

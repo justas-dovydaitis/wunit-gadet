@@ -6,7 +6,8 @@
 class IgnitionState : public AbstractState
 {
 private:
-    /* data */
+    const uint16_t _currentStateId = StateId_t::IGNITION_STATE;
+
 public:
     void init();
     void destroy();

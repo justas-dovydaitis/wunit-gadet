@@ -5,22 +5,28 @@
 
 #include "Controls/Controls.h"
 
-#define LOCKED_STATE 0
-#define UNLOCKED_STATE 1
-#define IGNITION_STATE 2
-#define RUNNING_STATE 3
+enum StateId_t : uint16_t
+{
+    LOCKED_STATE = 0,
+    UNLOCKED_STATE = 1,
+    IGNITION_STATE = 2,
+    RUNNING_STATE = 3,
+    CONFIG_STATE = 4,
+    INIT_STATE = 5,
+    UNKNOWN_STATE = 9,
+};
 
 class AbstractState
 {
+protected:
+    const uint16_t _currentStateId = StateId_t::UNKNOWN_STATE;
+
 public:
     virtual void init() = 0;
     virtual void destroy() = 0;
 
-    void turnOnOutput(uint8_t oututPin);
-    void turnOffOutput(uint8_t oututPin);
-    void turnOnOutputWithTimeout(uint8_t oututPin, ulong timeout);
-    void turnOnInterval(uint8_t outputPin, ulong interval);
-    void turnOnIntervalWithTimeout(uint8_t outputPin, ulong interval, ulong timeout);
+    void saveState();
+    uint16_t getStateId();
 };
 
 extern AbstractState *pCurrentState;

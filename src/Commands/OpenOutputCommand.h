@@ -10,7 +10,7 @@ private:
 
 public:
     explicit OpenOutputCommand(uint8_t outputPin);
-    void execute() const override;
+    void execute() override;
 };
 
 #endif

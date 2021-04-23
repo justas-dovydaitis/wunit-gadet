@@ -1,7 +1,7 @@
 #include "UnlockBikeCommand.h"
 #include "States/UnlockedState.h"
 
-void UnlockBikeCommand::execute() const
+void UnlockBikeCommand::execute()
 {
     setState(new UnlockedState);
 }
