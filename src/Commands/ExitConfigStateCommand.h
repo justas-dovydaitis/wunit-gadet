@@ -5,6 +5,7 @@
 
 class ExitConfigStateCommand : public Command
 {
+public:
     explicit ExitConfigStateCommand();
     void execute() override;
 };

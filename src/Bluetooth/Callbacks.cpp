@@ -1,4 +1,5 @@
 #include "Callbacks.h"
+#include "Commands/Command.h"
 #include "States/LockedState.h"
 
 #include <BLEDevice.h>
@@ -50,6 +51,23 @@ void ConfigCallbacks::onWrite(BLECharacteristic *pCharacteristic)
 }
 void ControlCallbacks::onWrite(BLECharacteristic *pCharacteristic)
 {
+    String value = String(pCharacteristic->getValue().c_str());
+
+    int valueStart = 0;
+    int valueEnd = value.indexOf(',');
+    uint command = value.substring(valueStart, valueEnd).toInt();
+
+    uint params[5];
+    int i = 0;
+    while (valueEnd > 0)
+    {
+        valueStart = valueEnd + 1;
+        valueEnd = value.indexOf(',', valueStart);
+        params[i++] = value.substring(valueStart, valueEnd).toInt();
+    }
+
+    Command *pCommand = createCommand(command, (void *)params);
+    pCommand->execute();
 }
 
 #define FULL_PACKET 512

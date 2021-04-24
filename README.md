@@ -226,6 +226,111 @@ TODOs:
 - Write unit tests.
 - Write integration tests.
 
+### Communication via BLE
+
+There are 3 services:
+
+- Dashboard Service `25be9010-7a82-11eb-9439-0242ac130002`
+
+  - Angle characteristic [Read|Notify] `d8925800-7a7f-11eb-9439-0242ac130002`
+
+    Gives real time angle value.
+
+  - Tach characteristic [Read|Notify] `f606b17c-7a81-11eb-9439-0242ac130002`
+
+    Gives real time rpm's.
+
+  - Speed characteristic [Read|Notify] `a034f9c-7a81-11eb-9439-0242ac130002`
+
+    Gives real time speed.
+
+  - Odometer characteristic [Read|Notify] `95265482-7a97-11eb-9439-0242ac130002`
+
+    Gives current mileage.
+
+  - Instruments characteristic [Read|Notify] `95265483-7a97-11eb-9439-0242ac130002`
+
+    Gives real time instruments status.
+
+- Config Service `21386056-7a82-11eb-9439-0242ac130002`
+
+  - Passkey characteristic [Write] `1b4b6220-7a82-11eb-9439-0242ac130002`
+
+    Characteristic for setting passkey. Paskey should be 6 digit length and cannot start with 0{?}.
+
+  - Config characteristic [Write] `1b4b6221-7a82-11eb-9439-0242ac130002`
+
+    Characteristic for setting config. Write serialized JSON string to it and it will be set.
+
+    Format is simple:
+
+    ```json
+    {}
+    ```
+
+  - OTA Update characteristic [Write] `1b4b6222-7a82-11eb-9439-0242ac130002`
+
+    Characterisitc for updating over ther air. Write a new firmware object to it.
+
+  - Version characteristic [Read] `1b4b6223-7a82-11eb-9439-0242ac130002`
+
+    Characteristic that holds hardware and software versions separated by comma.
+
+    `"hardware_version,software_version"`
+    For example `"0.0.1,2.0.0"`
+
+  - OTA Update ID characteristic [Read] `1b4b6222-7a82-11eb-9439-0242ac130002`
+
+    Not sure yet
+
+- Control Service `213860ca-7a82-11eb-9439-0242ac130002`
+
+  - Control Characteristic [Write] `21386057-7a82-11eb-9439-0242ac130002`
+
+    Characteristic to control WUnit remotely.
+    Way to use it is to write a command ID and then params.
+
+    All values are unsigned integers.
+
+    `{commandId},{param1},{param2}...`
+
+    If command does not need any parameters, then do not write any.
+    Or write, but they will be ignored.
+
+    CommandId is unsigned integer
+
+    - `COMMAND_OPEN_OUTPUT`
+
+      - id = 0
+      - output [0-15]
+
+    - `COMMAND_CLOSE_OUTPUT`
+
+      - id = 1
+      - output [0-15]
+
+    - `COMMAND_TOGGLE_OUTPUT`
+
+      - id = 2
+      - output [0-16]
+      - initialState [0|1]
+
+    - `COMMAND_LOCK_BIKE`
+
+      - id = 3
+
+    - `COMMAND_UNLOCK_BIKE`
+
+      - id = 4
+
+    - `COMMAND_ENTER_CONFIG_STATE`
+
+      - id = 5
+
+    - `COMMAND_EXIT_CONFIG_STATE`
+
+      - id = 6
+
 ## Sources
 
 - [Arduino Documentation](https://www.arduino.cc/reference/en/)
