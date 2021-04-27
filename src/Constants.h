@@ -7,8 +7,8 @@
 
 const uint C_CONFIG_JSON_SIZE = 1024;
 
-const uint8_t C_DEFAULT_ANGLE_COMPENSATE = 0;
-const uint8_t C_DEFAULT_MAX_LEAN_ANGLE = 50;
+const int16_t C_DEFAULT_ANGLE_COMPENSATE =0;
+const uint16_t C_DEFAULT_MAX_LEAN_ANGLE = 50;
 const bool C_DEFAULT_KILL_ON_FALL = false;
 const bool C_DEFAULT_SMS_PROXY_ON_FALL = false;
 

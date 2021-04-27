@@ -3,17 +3,19 @@
 
 #include "Arduino.h"
 
-const long minAnalogReadValue = 0;
-const long maxAnalogReadValue = 4095;
-
 template <typename T>
 class AnalogSensor
 {
 protected:
     uint8_t _pinInput;
 
-    long remapRangeFrom;
-    long remapRangeTo;
+    float _remapRangeFromLow;
+    float _remapRangeFromHigh;
+
+    float _remapRangeToHigh;
+    float _remapRangeToLow;
+
+    float _adjustment = 0;
 
 public:
     AnalogSensor()
@@ -23,9 +25,11 @@ public:
 
     T getValue()
     {
-        long angleValue = analogRead(_pinInput);
+        long sensorValue = analogRead(_pinInput);
 
-        T value = map(angleValue, minAnalogReadValue, maxAnalogReadValue, remapRangeFrom, remapRangeTo);
+        float adjustmentInProportion = (_remapRangeFromHigh - _remapRangeFromLow) * (_adjustment / (_remapRangeToHigh - _remapRangeToLow));
+
+        T value = map(sensorValue + adjustmentInProportion, _remapRangeFromLow, _remapRangeFromHigh, _remapRangeToLow, _remapRangeToHigh);
 
         return value;
     }

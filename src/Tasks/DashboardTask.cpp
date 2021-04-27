@@ -11,11 +11,13 @@ TaskHandle_t dashboardTaskHandle = NULL;
 
 std::string makeDashboardString()
 {
-    uint8_t angle = Angle::getInstance()->getAngle();
+    int16_t angle = Angle::getInstance()->getValue();
     uint16_t speed = Speed::getInstance()->getValue();
     uint16_t tach = Tach::getInstance()->getValue();
 
-    String value = String(angle) + ',' + String(speed) + ',' + String(tach);
+    String value = String(angle) + ',' + String(speed) + ',' + String(tach) + ",0";
+
+    Serial.println(value);
 
     return std::string(value.c_str());
 }
@@ -25,10 +27,9 @@ void taskUpdateDashboard(void *param)
     std::string value;
     for (;;)
     {
-        value += makeDashboardString();
+        value = makeDashboardString();
         Bluetooth::getInstance()->getDashboardCharacteristic()->setValue(value);
         Bluetooth::getInstance()->getDashboardCharacteristic()->notify();
-        vTaskDelay(pdMS_TO_TICKS(7000));
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
-    vTaskDelete(NULL);
 }

@@ -4,6 +4,6 @@
 Speed::Speed()
 {
     _pinInput = C_SPEED_INPUT_PIN;
-    remapRangeFrom = 0;
-    remapRangeTo = 299;
+    _remapRangeToLow = 0;
+    _remapRangeToHigh = 299;
 }

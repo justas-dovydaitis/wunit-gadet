@@ -4,6 +4,6 @@
 Tach::Tach()
 {
     _pinInput = C_TACH_INPUT_PIN;
-    remapRangeFrom = 0;
-    remapRangeTo = 15000;
+    _remapRangeToLow = 0;
+    _remapRangeToHigh = 15000;
 }

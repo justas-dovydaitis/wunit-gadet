@@ -5,28 +5,26 @@
 Angle::Angle()
 {
     _pinInput = C_ANGLE_INPUT_PIN;
-    remapRangeFrom = -90;
-    remapRangeTo = 90;
+    _adjustment = 4;
+    _remapRangeToHigh = 90;
+    _remapRangeToLow = -90;
+    _remapRangeFromLow = 0 +300; 
+    _remapRangeFromHigh = 4095-300;
     // _compensate = Config::getInstance()->getValue('constant');
-}
-
-uint8_t Angle::getAngle()
-{
-    return getValue() - _compensate;
 }
 
 void Angle::setCompensate(float compensate)
 {
-    _compensate = compensate;
+    _adjustment = compensate;
 }
 
 void Angle::adjustCompensate(float compensateAdjustVal)
 {
-    _compensate += compensateAdjustVal;
+    _adjustment += compensateAdjustVal;
 }
 
 void Angle::setAngleToZero()
 {
-    long currentAngle = getAngle();
-    _compensate -= currentAngle;
+    long currentAngle = getValue();
+    _adjustment -= currentAngle;
 }
