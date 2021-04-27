@@ -9,7 +9,7 @@ void taskUpdateAngleValue(void *param)
     String currentAngle;
     for (;;)
     {
-        currentAngle = String(pCurrentState->getAngle()->getAngle());
+        currentAngle = String(Angle::getInstance()->getAngle());
         Serial.println("Angle " + currentAngle);
         Bluetooth::getInstance()->getAngleCharacteristic()->setValue(currentAngle.c_str());
         Bluetooth::getInstance()->getAngleCharacteristic()->notify();

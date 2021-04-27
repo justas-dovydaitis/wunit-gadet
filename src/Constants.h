@@ -49,8 +49,17 @@ const char C_UPDATE_CHARACTERISTIC_UUID[] = "1b4b6222-7a82-11eb-9439-0242ac13000
 const char C_VERSION_CHARACTERISTIC_UUID[] = "1b4b6223-7a82-11eb-9439-0242ac130002";
 const char C_OTA_ID_CHARACTERISTIC_UUID[] = "1b4b6222-7a82-11eb-9439-0242ac130002";
 
-
-
 const char C_CONTROL_CHARACTERISTIC_UUID[] = "21386057-7a82-11eb-9439-0242ac130002";
+
+const uint8_t C_INPUT_COUNT = 16;
+const uint8_t C_OUTPUT_COUNT = 16;
+
+const uint8_t C_ANGLE_INPUT_PIN = 35;
+const uint8_t C_SPEED_INPUT_PIN = 0; // TODO: SET LATER
+const uint8_t C_TACH_INPUT_PIN = 0;  // TODO: SET LATER
+
+const uint8_t C_SIM_RST_PIN = 4;
+const uint8_t C_SIM_RX_PIN = 18;
+const uint8_t C_SIM_TX_PIN = 19;
 
 #endif

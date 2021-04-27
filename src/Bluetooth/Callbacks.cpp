@@ -51,22 +51,17 @@ void ConfigCallbacks::onWrite(BLECharacteristic *pCharacteristic)
 }
 void ControlCallbacks::onWrite(BLECharacteristic *pCharacteristic)
 {
-    String value = String(pCharacteristic->getValue().c_str());
+    std::string value = pCharacteristic->getValue();
 
     int valueStart = 0;
-    int valueEnd = value.indexOf(',');
-    uint command = value.substring(valueStart, valueEnd).toInt();
+    int valueEnd = value.find_first_of(',');
+    uint command = atoi(value.substr(valueStart, valueEnd).c_str());
 
-    uint params[5];
-    int i = 0;
-    while (valueEnd > 0)
-    {
-        valueStart = valueEnd + 1;
-        valueEnd = value.indexOf(',', valueStart);
-        params[i++] = value.substring(valueStart, valueEnd).toInt();
-    }
+    valueStart = valueEnd + 1;
 
-    Command *pCommand = createCommand(command, (void *)params);
+    std::string paramsString = value.substr(valueStart);
+
+    Command *pCommand = createCommand(command, paramsString);
     pCommand->execute();
 }
 

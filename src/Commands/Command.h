@@ -12,6 +12,8 @@ enum CommandIndex_t : uint8_t
     COMMAND_UNLOCK_BIKE = 4,
     COMMAND_ENTER_CONFIG_STATE = 5,
     COMMAND_EXIT_CONFIG_STATE = 6,
+    COMMAND_CALL_NUMBER = 7,
+    COMMAND_SMS = 8
 };
 
 class Command
@@ -21,6 +23,6 @@ public:
     virtual void execute() = 0;
 };
 
-Command *createCommand(uint8_t commandIndex, void *pCommandParam);
+Command *createCommand(uint8_t commandIndex, std::string param);
 
 #endif

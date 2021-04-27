@@ -105,6 +105,7 @@ Nothing yet...
 - [PCF8574 library](https://github.com/xreef/PCF8574_library) used for communication with PCF8575 16 IO expansion board.
 - [ArduinoJson](https://arduinojson.org/) save and load configurations.
 - [LittleFS](https://github.com/lorol/LITTLEFS)
+- [Adafruit PCA9685 PWM Library](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library)
 
 ## Conventions
 
@@ -201,13 +202,18 @@ For example `feature-add-bluetooth-communication` or `fix-gyroscope-drifting`
 | SIM800L | Power                        | NC (external power) | 5V         |
 | SIM800L | Serial communication voltage | 3V3                 | VDD        |
 | SIM800L | Reset pin                    | NC                  | RST        |
-| SIM800L | Transmitter                  | ?                   | TXD        |
-| SIM800L | Receiver                     | ?                   | RXD        |
+| SIM800L | Transmitter                  | 16                  | TXD        |
+| SIM800L | Receiver                     | 17                  | RXD        |
 | PCF8575 | Ground                       | GND                 | GND        |
 | PCF8575 | Power                        | 5V                  | VCC        |
 | PCF8575 | I<sup>2</sup>C Data          | 21                  | SDA        |
 | PCF8575 | I<sup>2</sup>C Clock         | 22                  | SCL        |
 | PCF8575 | Interrupt invoker            | 34                  | INT        |
+| PCA9685 | Ground                       | GND                 | GND        |
+| PCA9685 | Power                        | 5V                  | VCC        |
+| PCA9685 | I<sup>2</sup>C Data          | 21                  | SDA        |
+| PCA9685 | I<sup>2</sup>C Clock         | 22                  | SCL        |
+| PCA9685 | Output Enabled               | NC                  | OE         |
 
 ### Implemented Design patterns
 
@@ -218,6 +224,8 @@ For example `feature-add-bluetooth-communication` or `fix-gyroscope-drifting`
 | Command   | Buttons executes commands. | For better maintainability / future expandability.                             |
 | Singleton | Configuration class        | There should be only one config for whole thing.                               |
 | Singleton | Bluetooth class            | There should be only one Bluetooth config for whole thing.                     |
+| Singleton | GSM class                  |                                                                                |
+| Singleton | Outputs class              |                                                                                |
 
 ### Tests
 

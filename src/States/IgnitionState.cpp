@@ -6,8 +6,6 @@
 void IgnitionState::init()
 {
     saveState();
-    _pBluetooth->getControlService()->start();
-    _pBluetooth->getDashboardService()->start();
 }
 
 void IgnitionState::destroy()

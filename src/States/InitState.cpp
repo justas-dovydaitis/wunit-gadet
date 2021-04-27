@@ -9,8 +9,10 @@
 
 void InitState::init()
 {
+    setupIO();
+
     uint16_t lastState;
-    bool unlocked = _pBluetooth->isConnected() || _keyUnlocked;
+    bool unlocked = Bluetooth::getInstance()->isConnected() || _keyUnlocked;
 
     Preferences preferences;
     preferences.begin("wunit");

@@ -1,7 +1,7 @@
 #ifndef __STATE_H__
 #define __STATE_H__
 
-#include "Angle/Angle.h"
+#include "AnalogSensor/Angle/Angle.h"
 #include "Bluetooth/Bluetooth.h"
 #include "Controls/Controls.h"
 #include "IOConfig/IOConfig.h"
@@ -20,9 +20,6 @@ enum StateId_t : uint16_t
 class AbstractState
 {
 protected:
-    Angle *_angle = new Angle(PIN_INPUT_ANGLE);
-    Bluetooth *_pBluetooth = Bluetooth::getInstance();
-
     const uint16_t _currentStateId = StateId_t::UNKNOWN_STATE;
 
     bool _keyUnlocked = false;
@@ -33,8 +30,6 @@ public:
 
     void saveState();
     uint16_t getStateId();
-
-    Angle *getAngle();
 };
 
 extern AbstractState *pCurrentState;

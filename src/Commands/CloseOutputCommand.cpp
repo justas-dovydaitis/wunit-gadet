@@ -1,4 +1,5 @@
 #include "CloseOutputCommand.h"
+#include "Outputs/Outputs.h"
 
 CloseOutputCommand::CloseOutputCommand(uint8_t outputPin)
     : _outputPin(outputPin)
@@ -8,5 +9,5 @@ CloseOutputCommand::CloseOutputCommand(uint8_t outputPin)
 void CloseOutputCommand::execute()
 {
     Serial.println("CLOSE OUTPUT");
-    digitalWrite(_outputPin, LOW);
+    Outputs::getInstance()->setPinOff(_outputPin);
 }

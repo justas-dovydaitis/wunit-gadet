@@ -10,6 +10,7 @@ private:
     bool _isOpen = false;
 
 public:
+    explicit ToggleOutputCommand(std::string param);
     explicit ToggleOutputCommand(uint8_t outputPin, bool isOpenDefault = false);
     void execute();
 };

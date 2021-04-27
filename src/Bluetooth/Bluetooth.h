@@ -1,15 +1,18 @@
 #ifndef __BLUETOOTH_H__
 #define __BLUETOOTH_H__
 
+#include "Templates/Singleton.h"
+
 #include <Arduino.h>
 #include <BLEDevice.h>
 #include <BLEServer.h>
 
-class Bluetooth
+class Bluetooth : public Singleton<Bluetooth>
 {
+    friend class Singleton<Bluetooth>;
+
 protected:
     Bluetooth();
-    static Bluetooth *_pInstance;
 
     bool _isConnected = false;
 
@@ -39,11 +42,6 @@ protected:
     void setupBLECharacteristics();
 
 public:
-    Bluetooth(Bluetooth &other) = delete;
-    void operator=(const Bluetooth &) = delete;
-
-    static Bluetooth *getInstance();
-
     bool isConnected();
     void setConnected(bool connected);
 

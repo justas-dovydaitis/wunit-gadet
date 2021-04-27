@@ -89,8 +89,6 @@ void Bluetooth::setupBLECharacteristics()
     _pUpdateCharacteristic->setCallbacks(new UpdateOTACallbacks(this));
 }
 
-Bluetooth *Bluetooth::_pInstance = nullptr;
-
 Bluetooth::Bluetooth()
 {
     BLEDevice::init("WUnit™");
@@ -110,15 +108,6 @@ Bluetooth::Bluetooth()
     _pBLEAdvertising->start();
 
     setupBLESecurity();
-}
-
-Bluetooth *Bluetooth::getInstance()
-{
-    if (_pInstance == nullptr)
-    {
-        _pInstance = new Bluetooth();
-    }
-    return _pInstance;
 }
 
 BLEAdvertising *Bluetooth::getAdvertising()
