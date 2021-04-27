@@ -23,11 +23,8 @@ protected:
     BLEService *_pControlService;
     BLEService *_pDashboardService;
 
-    BLECharacteristic *_pAngleCharacteristic;
+    BLECharacteristic *_pDashboardCharacteristic;
     BLECharacteristic *_pGadgetsCharacteristic;
-    BLECharacteristic *_pOdometerCharacteristic;
-    BLECharacteristic *_pSpeedometerCharacteristic;
-    BLECharacteristic *_pTachometerCharacteristic;
 
     BLECharacteristic *_pControlCharacteristic;
 
@@ -51,10 +48,8 @@ public:
     BLEService *getDashboardService();
     BLEService *getControlService();
 
-    BLECharacteristic *getAngleCharacteristic();
-    BLECharacteristic *getOdometerCharacteristic();
-    BLECharacteristic *getTachometerCharacteristic();
-    BLECharacteristic *getSpeedometerCharacteristic();
+    BLECharacteristic *getDashboardCharacteristic();
+    BLECharacteristic *getGadgetCharacteristic();
 };
 
 #endif

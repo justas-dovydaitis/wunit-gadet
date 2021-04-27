@@ -45,17 +45,8 @@ void Bluetooth::setupBLECharacteristics()
     /**
      *  Dashboard service characteristics.
      */
-    _pAngleCharacteristic = _pDashboardService->createCharacteristic(C_ANGLE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
-    _pAngleCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
-
-    _pSpeedometerCharacteristic = _pDashboardService->createCharacteristic(C_SPEEDOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
-    _pSpeedometerCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
-
-    _pTachometerCharacteristic = _pDashboardService->createCharacteristic(C_TACHOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
-    _pTachometerCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
-
-    _pOdometerCharacteristic = _pDashboardService->createCharacteristic(C_ODOMETER_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
-    _pOdometerCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
+    _pDashboardCharacteristic = _pDashboardService->createCharacteristic(C_DASHBOARD_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+    _pDashboardCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
 
     _pGadgetsCharacteristic = _pDashboardService->createCharacteristic(C_GADGETS_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
     _pGadgetsCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
@@ -100,6 +91,7 @@ Bluetooth::Bluetooth()
 
     setupBLEServices();
     setupBLECharacteristics();
+
     _pDashboardService->start();
     _pControlService->start();
     _pConfigService->start();
@@ -119,30 +111,25 @@ BLEService *Bluetooth::getConfigService()
 {
     return _pConfigService;
 }
+
 BLEService *Bluetooth::getDashboardService()
 {
     return _pDashboardService;
 }
+
 BLEService *Bluetooth::getControlService()
 {
     return _pControlService;
 }
 
-BLECharacteristic *Bluetooth::getAngleCharacteristic()
+BLECharacteristic *Bluetooth::getDashboardCharacteristic()
 {
-    return _pAngleCharacteristic;
+    return _pDashboardCharacteristic;
 }
-BLECharacteristic *Bluetooth::getOdometerCharacteristic()
+
+BLECharacteristic *Bluetooth::getGadgetCharacteristic()
 {
-    return _pAngleCharacteristic;
-}
-BLECharacteristic *Bluetooth::getTachometerCharacteristic()
-{
-    return _pTachometerCharacteristic;
-}
-BLECharacteristic *Bluetooth::getSpeedometerCharacteristic()
-{
-    return _pSpeedometerCharacteristic;
+    return _pGadgetsCharacteristic;
 }
 
 bool Bluetooth::isConnected()

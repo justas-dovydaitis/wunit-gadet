@@ -106,6 +106,7 @@ Nothing yet...
 - [ArduinoJson](https://arduinojson.org/) save and load configurations.
 - [LittleFS](https://github.com/lorol/LITTLEFS)
 - [Adafruit PCA9685 PWM Library](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library)
+- [Adafruit FONA](https://github.com/adafruit/Adafruit_FONA)
 
 ## Conventions
 
@@ -240,25 +241,22 @@ There are 3 services:
 
 - Dashboard Service `25be9010-7a82-11eb-9439-0242ac130002`
 
-  - Angle characteristic [Read|Notify] `d8925800-7a7f-11eb-9439-0242ac130002`
+  - Dashboard Characteristic [Read|Notify] `95265482-7a97-11eb-9439-0242ac130002`
 
-    Gives real time angle value.
+    Gives Angle, Speed, RPMs and Odometer values separated by comma.
 
-  - Tach characteristic [Read|Notify] `f606b17c-7a81-11eb-9439-0242ac130002`
+    `{angle},{speed},{rpm},{odo}`
 
-    Gives real time rpm's.
-
-  - Speed characteristic [Read|Notify] `a034f9c-7a81-11eb-9439-0242ac130002`
-
-    Gives real time speed.
-
-  - Odometer characteristic [Read|Notify] `95265482-7a97-11eb-9439-0242ac130002`
-
-    Gives current mileage.
+  - angle - 8-bit signed integer
+  - speed - 16-bit unsigned integer
+  - rpm - 16-bit unsigned integer
+  - odo - 32-bit unsigned integer
 
   - Instruments characteristic [Read|Notify] `95265483-7a97-11eb-9439-0242ac130002`
 
-    Gives real time instruments status.
+    Gives real time instruments status. Value is 16-bit unsigned integer. Should parse it to binary value to see whitch bits are on.
+
+    Example: value is `12561` so binary value is `0011000100010001` so we can see that outputs with indexes 0,4,8,12,13 are on. (Reading bits from a left to right).
 
 - Config Service `21386056-7a82-11eb-9439-0242ac130002`
 

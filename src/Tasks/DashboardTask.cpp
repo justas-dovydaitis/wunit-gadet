@@ -1,23 +1,33 @@
-#include "Controls/Controls.h"
+#include "AnalogSensor/Angle/Angle.h"
+#include "AnalogSensor/Speed/Speed.h"
+#include "AnalogSensor/Tach/Tach.h"
+
 #include "DashboardTask.h"
 #include "States/State.h"
+
+#include <string.h>
 
 TaskHandle_t dashboardTaskHandle = NULL;
 
 std::string makeDashboardString()
 {
-    //     uint8_t angle = pAngle
-    //     uint16_t speed = ()->getSpeed();
+    uint8_t angle = Angle::getInstance()->getAngle();
+    uint16_t speed = Speed::getInstance()->getValue();
+    uint16_t tach = Tach::getInstance()->getValue();
+
+    String value = String(angle) + ',' + String(speed) + ',' + String(tach);
+
+    return std::string(value.c_str());
 }
 
 void taskUpdateDashboard(void *param)
 {
-    double currentVal = 15523.6;
+    std::string value;
     for (;;)
     {
-        currentVal += 0.1;
-        Bluetooth::getInstance()->getOdometerCharacteristic()->setValue(String(currentVal).c_str());
-        Bluetooth::getInstance()->getOdometerCharacteristic()->notify();
+        value += makeDashboardString();
+        Bluetooth::getInstance()->getDashboardCharacteristic()->setValue(value);
+        Bluetooth::getInstance()->getDashboardCharacteristic()->notify();
         vTaskDelay(pdMS_TO_TICKS(7000));
     }
     vTaskDelete(NULL);

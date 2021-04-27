@@ -1,7 +1,5 @@
 #include "Outputs.h"
 
-Outputs *Outputs::_pInstance = nullptr;
-
 const float defaultPWMFreq = 1000;
 
 Outputs::Outputs()
@@ -15,15 +13,6 @@ Outputs::Outputs()
     while (i < 15);
 }
 
-Outputs *Outputs::getInstance()
-{
-    if (_pInstance == nullptr)
-    {
-        _pInstance = new Outputs();
-    }
-    return _pInstance;
-}
-
 void Outputs::setPinOn(uint8_t pin)
 {
     _pwm.setPin(pin, OPEN);
@@ -35,4 +24,19 @@ void Outputs::setPinOff(uint8_t pin)
 
 void Outputs::pulsePin(uint8_t pin, long timeRise, long timeFall)
 {
+}
+
+uint16_t Outputs::getOutputStatusBitmask()
+{
+    uint16_t bitmask = 0;
+
+    for (int i = 0; i < 16; i++)
+    {
+        bitmask = bitmask << 1;
+        if (_pwm.getPWM(i))
+        {
+            bitmask++;
+        }
+    }
+    return bitmask;
 }
