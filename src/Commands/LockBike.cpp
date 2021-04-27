@@ -1,9 +1,9 @@
-#include "LockBikeCommand.h"
+#include "LockBike.h"
 #include "States/LockedState.h"
 
-LockBikeCommand::LockBikeCommand() {}
+LockBike::LockBike() {}
 
-void LockBikeCommand::execute()
+void LockBike::execute()
 {
     Serial.println("LOCK BIKE");
     setState(new LockedState);

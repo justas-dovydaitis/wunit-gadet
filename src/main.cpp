@@ -2,10 +2,6 @@
 
 #include "AnalogSensor/Angle/Angle.h"
 #include "Bluetooth/Bluetooth.h"
-#include "Commands/CloseOutputCommand.h"
-#include "Commands/LockBikeCommand.h"
-#include "Commands/OpenOutputCommand.h"
-#include "Commands/ToggleOutputCommand.h"
 #include "Config/Config.h"
 #include "GSM/GSM.h"
 #include "States/InitState.h"

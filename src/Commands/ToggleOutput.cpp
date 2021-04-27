@@ -1,14 +1,14 @@
-#include "ToggleOutputCommand.h"
+#include "ToggleOutput.h"
 #include "Outputs/Outputs.h"
 
-ToggleOutputCommand::ToggleOutputCommand(std::string param)
+ToggleOutput::ToggleOutput(std::string param)
 {
     uint8_t splitter = param.find(',');
     _isOpen = atoi(param.substr(splitter + 1).c_str());
     _outputPin = atoi(param.substr(0, splitter - 1).c_str());
 }
 
-ToggleOutputCommand::ToggleOutputCommand(uint8_t outputPin, bool isOpenDefault)
+ToggleOutput::ToggleOutput(uint8_t outputPin, bool isOpenDefault)
     : _outputPin(outputPin), _isOpen(isOpenDefault)
 {
     if (_isOpen)
@@ -16,7 +16,7 @@ ToggleOutputCommand::ToggleOutputCommand(uint8_t outputPin, bool isOpenDefault)
         Outputs::getInstance()->setPinOff(outputPin);
     }
 }
-void ToggleOutputCommand::execute()
+void ToggleOutput::execute()
 {
     _isOpen = !_isOpen;
     if (_isOpen)

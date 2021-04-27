@@ -1,14 +1,14 @@
 #include "Command.h"
 
-#include "CloseOutputCommand.h"
-#include "EnterConfigStateCommand.h"
-#include "ExitConfigStateCommand.h"
-#include "LockBikeCommand.h"
-#include "OpenOutputCommand.h"
-#include "PhoneCallCommand.h"
-#include "SMSCommand.h"
-#include "ToggleOutputCommand.h"
-#include "UnlockBikeCommand.h"
+#include "CloseOutput.h"
+#include "EnterConfigState.h"
+#include "ExitConfigState.h"
+#include "LockBike.h"
+#include "OpenOutput.h"
+#include "PhoneCall.h"
+#include "SMS.h"
+#include "ToggleOutput.h"
+#include "UnlockBike.h"
 
 Command *createCommand(uint8_t commandIndex, std::string param)
 {
@@ -18,23 +18,23 @@ Command *createCommand(uint8_t commandIndex, std::string param)
     switch (commandIndex)
     {
     case COMMAND_OPEN_OUTPUT:
-        return new OpenOutputCommand(atoi(param.c_str()));
+        return new OpenOutput(atoi(param.c_str()));
     case COMMAND_CLOSE_OUTPUT:
-        return new CloseOutputCommand(atoi(param.c_str()));
+        return new CloseOutput(atoi(param.c_str()));
     case COMMAND_LOCK_BIKE:
-        return new LockBikeCommand();
+        return new LockBike();
     case COMMAND_UNLOCK_BIKE:
-        return new UnlockBikeCommand();
+        return new UnlockBike();
     case COMMAND_ENTER_CONFIG_STATE:
-        return new EnterConfigStateCommand();
+        return new EnterConfigState();
     case COMMAND_EXIT_CONFIG_STATE:
-        return new ExitConfigStateCommand();
+        return new ExitConfigState();
     case COMMAND_TOGGLE_OUTPUT:
-        return new ToggleOutputCommand(param);
+        return new ToggleOutput(param);
     case COMMAND_CALL_NUMBER:
-        return new PhoneCallCommand(param);
+        return new PhoneCall(param);
     case COMMAND_SMS:
-        return new SMSCommand(param);
+        return new SMS(param);
     default:
         return nullptr;
     }

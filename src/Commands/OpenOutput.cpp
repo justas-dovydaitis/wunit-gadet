@@ -1,11 +1,11 @@
-#include "OpenOutputCommand.h"
+#include "OpenOutput.h"
 #include "Outputs/Outputs.h"
 
-OpenOutputCommand::OpenOutputCommand(uint8_t outputPin)
+OpenOutput::OpenOutput(uint8_t outputPin)
     : _outputPin(outputPin)
 {
 }
-void OpenOutputCommand::execute()
+void OpenOutput::execute()
 {
     Serial.println("OPEN OUTPUT");
 
