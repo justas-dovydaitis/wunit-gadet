@@ -5,7 +5,6 @@
 
 #define FORMAT_LITTLEFS_IF_FAILED true
 
-Config *Config::_pInstance = nullptr;
 SemaphoreHandle_t Config::_mutex = xSemaphoreCreateMutex();
 
 File Config::getConfigFile(const char *mode)
