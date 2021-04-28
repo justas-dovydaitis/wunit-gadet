@@ -9,8 +9,8 @@ class AnalogSensor
 protected:
     uint8_t _pinInput;
 
-    float _remapRangeFromLow;
-    float _remapRangeFromHigh;
+    float _remapRangeFromLow = 0;
+    float _remapRangeFromHigh = 4095;
 
     float _remapRangeToHigh;
     float _remapRangeToLow;

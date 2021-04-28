@@ -256,7 +256,7 @@ There are 3 services:
 
     Gives real time instruments status. Value is 16-bit unsigned integer. Should parse it to binary value to see whitch bits are on.
 
-    Example: value is `12561` so binary value is `0011000100010001` so we can see that outputs with indexes 0,4,8,12,13 are on. (Reading bits from a left to right).
+    Example: value is `12561`(dec) or `0x3111`(hex) so binary value is `0011000100010001` so we can see that outputs with indexes 0,4,8,12,13 are on. (Reading bits from a left to right).
 
 - Config Service `21386056-7a82-11eb-9439-0242ac130002`
 

@@ -13,6 +13,7 @@ protected:
     Outputs();
 
     Adafruit_PWMServoDriver _pwm;
+    uint16_t _pins[16] = {0};
     static void pulsePin(uint8_t pin, long timeRise, long timeFall);
 
 public:

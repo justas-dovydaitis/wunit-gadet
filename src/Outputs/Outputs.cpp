@@ -8,18 +8,23 @@ Outputs::Outputs()
     _pwm.begin();
     _pwm.setPWMFreq(defaultPWMFreq);
     int i = 0;
-    do
-        _pwm.setPin(i++, CLOSED);
-    while (i < 15);
+    while (i < 15)
+    {
+        _pins[i] = CLOSED;
+        _pwm.setPin(i, _pins[i]);
+        i++;
+    }
 }
 
 void Outputs::setPinOn(uint8_t pin)
 {
     _pwm.setPin(pin, OPEN);
+    _pins[pin] = OPEN;
 }
 void Outputs::setPinOff(uint8_t pin)
 {
     _pwm.setPin(pin, CLOSED);
+    _pins[pin] = CLOSED;
 }
 
 void Outputs::pulsePin(uint8_t pin, long timeRise, long timeFall)
@@ -32,11 +37,11 @@ uint16_t Outputs::getOutputStatusBitmask()
 
     for (int i = 0; i < 16; i++)
     {
-        bitmask = bitmask << 1;
-        if (_pwm.getPWM(i))
+        if (_pins[i])
         {
-            bitmask++;
+            bitmask += pow(2, i);
         }
     }
+    Serial.printf("bitmask=%d \n", bitmask);
     return bitmask;
 }
