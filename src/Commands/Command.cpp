@@ -10,7 +10,7 @@
 #include "ToggleOutput.h"
 #include "UnlockBike.h"
 
-Command *createCommand(uint8_t commandIndex, std::string param)
+CommandInterface *createCommand(uint8_t commandIndex, std::string param)
 {
     Serial.println(commandIndex);
     Serial.println(param.c_str());

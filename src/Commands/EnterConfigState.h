@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class EnterConfigState : public Command
+class EnterConfigState : public CommandInterface
 {
 public:
     explicit EnterConfigState();

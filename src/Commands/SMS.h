@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class SMS : public Command
+class SMS : public CommandInterface
 {
 private:
     std::string _number;

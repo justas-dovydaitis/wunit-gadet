@@ -61,7 +61,7 @@ void ControlCallbacks::onWrite(BLECharacteristic *pCharacteristic)
 
     std::string paramsString = value.substr(valueStart);
 
-    Command *pCommand = createCommand(command, paramsString);
+    CommandInterface *pCommand = createCommand(command, paramsString);
     pCommand->execute();
 }
 

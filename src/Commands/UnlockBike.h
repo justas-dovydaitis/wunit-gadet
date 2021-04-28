@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class UnlockBike : public Command
+class UnlockBike : public CommandInterface
 {
 public:
     explicit UnlockBike();

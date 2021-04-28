@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class ExitConfigState : public Command
+class ExitConfigState : public CommandInterface
 {
 public:
     explicit ExitConfigState();

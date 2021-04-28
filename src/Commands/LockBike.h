@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class LockBike : public Command
+class LockBike : public CommandInterface
 {
 public:
     explicit LockBike();

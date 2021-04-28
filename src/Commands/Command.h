@@ -16,13 +16,13 @@ enum CommandIndex_t : uint8_t
     COMMAND_SMS = 8
 };
 
-class Command
+class CommandInterface
 {
 public:
-    virtual ~Command() {}
+    virtual ~CommandInterface() {}
     virtual void execute() = 0;
 };
 
-Command *createCommand(uint8_t commandIndex, std::string param);
+CommandInterface *createCommand(uint8_t commandIndex, std::string param);
 
 #endif

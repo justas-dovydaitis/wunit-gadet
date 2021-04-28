@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class PhoneCall : public Command
+class PhoneCall : public CommandInterface
 {
 private:
     std::string _number;

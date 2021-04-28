@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class ToggleOutput : public Command
+class ToggleOutput : public CommandInterface
 {
 private:
     uint8_t _outputPin;

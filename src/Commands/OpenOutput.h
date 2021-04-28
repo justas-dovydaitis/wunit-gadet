@@ -3,7 +3,7 @@
 
 #include "Command.h"
 
-class OpenOutput : public Command
+class OpenOutput : public CommandInterface
 {
 private:
     uint8_t _outputPin;

@@ -3,26 +3,25 @@
 
 #include <Arduino.h>
 
-#include "Commands/Command.h"
+#include "Commands/CompositeCommand.h"
 
 class AbstractButton
 {
 public:
     virtual ~AbstractButton();
     virtual void handlePress(bool level) = 0;
-    
+
     AbstractButton();
     AbstractButton(uint16_t inputBitMask,
                    const bool activeLow = true,
                    const bool pullupActive = true);
 
-    void attachPress(Command *func);
-    void attachDoublePress(Command *func);
-    void attachLongPressStart(Command *func);
-    void attachLongPressStop(Command *func);
-    void attachDuringLongPress(Command *func);
+    void attachPress(AbstractCompositeCommand *func);
+    void attachDoublePress(AbstractCompositeCommand *func);
+    void attachLongPressStart(AbstractCompositeCommand *func);
+    void attachLongPressStop(AbstractCompositeCommand *func);
+    void attachDuringLongPress(AbstractCompositeCommand *func);
 
-    
     void setDebounceTime(const ulong millis);
     void setClickTime(const ulong millis);
     void setPressTime(const ulong millis);
@@ -40,12 +39,12 @@ protected:
 
     int _buttonPressed;
 
-    Command *_clickFunc = nullptr;
-    Command *_doubleClickFunc = nullptr;
-    Command *_multiClickFunc = nullptr;
-    Command *_longPressStartFunc = nullptr;
-    Command *_longPressStopFunc = nullptr;
-    Command *_duringLongPressFunc = nullptr;
+    AbstractCompositeCommand *_clickFunc = nullptr;
+    AbstractCompositeCommand *_doubleClickFunc = nullptr;
+    AbstractCompositeCommand *_multiClickFunc = nullptr;
+    AbstractCompositeCommand *_longPressStartFunc = nullptr;
+    AbstractCompositeCommand *_longPressStopFunc = nullptr;
+    AbstractCompositeCommand *_duringLongPressFunc = nullptr;
 
     enum ControlState_t : uint8_t
     {

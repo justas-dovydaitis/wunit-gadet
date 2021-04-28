@@ -39,27 +39,27 @@ bool AbstractButton::isLongPressed() const
     return _state == BUTTON_STATE_PRESS;
 }
 
-void AbstractButton::attachPress(Command *func)
+void AbstractButton::attachPress(AbstractCompositeCommand *func)
 {
     _clickFunc = func;
 }
 
-void AbstractButton::attachDoublePress(Command *func)
+void AbstractButton::attachDoublePress(AbstractCompositeCommand *func)
 {
     _doubleClickFunc = func;
 }
 
-void AbstractButton::attachDuringLongPress(Command *func)
+void AbstractButton::attachDuringLongPress(AbstractCompositeCommand *func)
 {
     _duringLongPressFunc = func;
 }
 
-void AbstractButton::attachLongPressStart(Command *func)
+void AbstractButton::attachLongPressStart(AbstractCompositeCommand *func)
 {
     _longPressStartFunc = func;
 }
 
-void AbstractButton::attachLongPressStop(Command *func)
+void AbstractButton::attachLongPressStop(AbstractCompositeCommand *func)
 {
     _longPressStopFunc = func;
 }

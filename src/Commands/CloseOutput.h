@@ -2,7 +2,7 @@
 #define __CLOSE_OUTPUT_H__
 #include "Command.h"
 
-class CloseOutput : public Command
+class CloseOutput : public CommandInterface
 {
 private:
     uint8_t _outputPin;
