@@ -9,8 +9,8 @@ private:
     const uint16_t _currentStateId = StateId_t::RUNNING_STATE;
 
 public:
-    void init();
-    void destroy();
+    void onInit();
+    void onDestroy();
 };
 
 #endif

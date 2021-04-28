@@ -6,15 +6,14 @@
 #include "Tasks/GadgetTask.h"
 #include "Tasks/Tasks.h"
 
-void RunningState::init()
+void RunningState::onInit()
 {
-    saveState();
     Serial.println("INIT Running state");
     runTask(taskUpdateDashboard, "UPDATE_DASH", 4096, tskIDLE_PRIORITY, dashboardTaskHandle);
     runTask(taskUpdateGadgets, "UPDATE_GADGETS", 4096, tskIDLE_PRIORITY, gadgetsTaskHandle);
 }
 
-void RunningState::destroy()
+void RunningState::onDestroy()
 {
     Serial.println("DESTROY Running state");
 

@@ -10,9 +10,9 @@ class UnlockedState : public AbstractState
 private:
     const uint16_t _currentStateId = StateId_t::UNLOCKED_STATE;
 
-public:
-    void init();
-    void destroy();
+protected:
+    void onInit();
+    void onDestroy();
 };
 
 #endif

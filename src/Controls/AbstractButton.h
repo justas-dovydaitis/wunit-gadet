@@ -16,11 +16,11 @@ public:
                    const bool activeLow = true,
                    const bool pullupActive = true);
 
-    void attachPress(AbstractCompositeCommand *func);
-    void attachDoublePress(AbstractCompositeCommand *func);
-    void attachLongPressStart(AbstractCompositeCommand *func);
-    void attachLongPressStop(AbstractCompositeCommand *func);
-    void attachDuringLongPress(AbstractCompositeCommand *func);
+    void attachPress(CommandInterface *func);
+    void attachDoublePress(CommandInterface *func);
+    void attachLongPressStart(CommandInterface *func);
+    void attachLongPressStop(CommandInterface *func);
+    void attachDuringLongPress(CommandInterface *func);
 
     void setDebounceTime(const ulong millis);
     void setClickTime(const ulong millis);
@@ -39,12 +39,12 @@ protected:
 
     int _buttonPressed;
 
-    AbstractCompositeCommand *_clickFunc = nullptr;
-    AbstractCompositeCommand *_doubleClickFunc = nullptr;
-    AbstractCompositeCommand *_multiClickFunc = nullptr;
-    AbstractCompositeCommand *_longPressStartFunc = nullptr;
-    AbstractCompositeCommand *_longPressStopFunc = nullptr;
-    AbstractCompositeCommand *_duringLongPressFunc = nullptr;
+    CommandInterface *_clickFunc = nullptr;
+    CommandInterface *_doubleClickFunc = nullptr;
+    CommandInterface *_multiClickFunc = nullptr;
+    CommandInterface *_longPressStartFunc = nullptr;
+    CommandInterface *_longPressStopFunc = nullptr;
+    CommandInterface *_duringLongPressFunc = nullptr;
 
     enum ControlState_t : uint8_t
     {

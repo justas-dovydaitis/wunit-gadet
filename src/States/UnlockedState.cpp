@@ -7,16 +7,15 @@
 #include "Tasks/Tasks.h"
 #include "UnlockedState.h"
 
-void UnlockedState::init()
+void UnlockedState::onInit()
 {
-    saveState();
     Serial.println("INIT: Unlocked state");
     runTask(taskControls, "CONTROLS", 4096, 1, controlsTaskHandle);
     runTask(taskUpdateDashboard, "Dash", 4096, 1, dashboardTaskHandle);
     runTask(taskUpdateGadgets, "gadget", 4096, 1, gadgetsTaskHandle);
 }
 
-void UnlockedState::destroy()
+void UnlockedState::onDestroy()
 {
     Serial.println("DESTROY: Unlocked state");
 

@@ -7,7 +7,7 @@
 
 #include <Preferences.h>
 
-void InitState::init()
+void InitState::onInit()
 {
     setupIO();
 
@@ -42,6 +42,6 @@ void InitState::init()
         setState(new LockedState);
     }
 }
-void InitState::destroy()
+void InitState::onDestroy()
 {
 }

@@ -3,11 +3,11 @@
 #include "Interrupts/ISRs.h"
 #include "IOConfig/IOConfig.h"
 
-void IgnitionState::init()
+void IgnitionState::onInit()
 {
-    saveState();
+
 }
 
-void IgnitionState::destroy()
+void IgnitionState::onDestroy()
 {
 }

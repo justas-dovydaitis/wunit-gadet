@@ -1,10 +1,10 @@
 #include "Bluetooth/Bluetooth.h"
 #include "ConfigState.h"
 
-void ConfigState::init()
+void ConfigState::onInit()
 {
-    saveState();
+
 }
-void ConfigState::destroy()
+void ConfigState::onDestroy()
 {
 }

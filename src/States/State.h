@@ -4,6 +4,7 @@
 #include "AnalogSensor/Angle/Angle.h"
 #include "Bluetooth/Bluetooth.h"
 #include "Controls/Controls.h"
+#include "Commands/CompositeCommand.h"
 #include "IOConfig/IOConfig.h"
 
 enum StateId_t : uint16_t
@@ -22,11 +23,20 @@ class AbstractState
 protected:
     const uint16_t _currentStateId = StateId_t::UNKNOWN_STATE;
 
+    CommandInterface *_pInitCommand = nullptr;
+    CommandInterface *_pDestroyCommand = nullptr;
+
     bool _keyUnlocked = false;
 
+    virtual void onInit() = 0;
+    virtual void onDestroy() = 0;
+
 public:
-    virtual void init() = 0;
-    virtual void destroy() = 0;
+    void init();
+    void destroy();
+
+    void setInitCommand(CommandInterface *pCommand);
+    void setDestroyCommand(CommandInterface *pCommand);
 
     void saveState();
     uint16_t getStateId();

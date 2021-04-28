@@ -3,11 +3,12 @@
 
 #include <Arduino.h>
 
-#define __WUNIT_VERSION__ '0.0.1';
+#define DEVICE_SOFTWARE_VERSION "0.0.2"
+#define DEVICE_HARDWARE_VERSION "0.0.1"
 
 const uint C_CONFIG_JSON_SIZE = 1024;
 
-const int16_t C_DEFAULT_ANGLE_COMPENSATE =0;
+const int16_t C_DEFAULT_ANGLE_COMPENSATE = 0;
 const uint16_t C_DEFAULT_MAX_LEAN_ANGLE = 50;
 const bool C_DEFAULT_KILL_ON_FALL = false;
 const bool C_DEFAULT_SMS_PROXY_ON_FALL = false;

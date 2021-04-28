@@ -73,6 +73,9 @@ void Bluetooth::setupBLECharacteristics()
 
     _pVersionCharacteristic = _pConfigService->createCharacteristic(C_VERSION_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ);
     _pVersionCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENC_MITM);
+    char buff[28];
+    sprintf(buff, "%s,%s", DEVICE_SOFTWARE_VERSION, DEVICE_HARDWARE_VERSION);
+    _pVersionCharacteristic->setValue(buff);
 
     _pUpdateCharacteristic = _pConfigService->createCharacteristic(C_UPDATE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
     _pUpdateCharacteristic->setAccessPermissions(ESP_GATT_PERM_WRITE_ENC_MITM);

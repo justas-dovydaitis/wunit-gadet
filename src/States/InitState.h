@@ -7,9 +7,9 @@ class InitState : public AbstractState
 {
 private:
     /* data */
-public:
-    void init();
-    void destroy();
+protected:
+    void onInit();
+    void onDestroy();
 };
 
 #endif
