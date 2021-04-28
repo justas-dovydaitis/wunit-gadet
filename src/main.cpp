@@ -14,10 +14,6 @@ void setup()
 {
   Serial.begin(115200);
 
-  Angle::getInstance();
-  Bluetooth::getInstance();
-  GSM::getInstance();
-
   setState(new InitState);
 
   vTaskDelete(NULL);

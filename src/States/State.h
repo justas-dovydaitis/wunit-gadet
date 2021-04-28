@@ -15,6 +15,7 @@ enum StateId_t : uint16_t
     RUNNING_STATE = 3,
     CONFIG_STATE = 4,
     INIT_STATE = 5,
+    CRASHED_STATE = 6,
     UNKNOWN_STATE = 9,
 };
 
@@ -23,8 +24,8 @@ class AbstractState
 protected:
     const uint16_t _currentStateId = StateId_t::UNKNOWN_STATE;
 
-    CommandInterface *_pInitCommand = nullptr;
-    CommandInterface *_pDestroyCommand = nullptr;
+    CommandInterface *_pInitRoutine = nullptr;
+    CommandInterface *_pDestroyRoutine = nullptr;
 
     bool _keyUnlocked = false;
 
@@ -38,7 +39,6 @@ public:
     void setInitCommand(CommandInterface *pCommand);
     void setDestroyCommand(CommandInterface *pCommand);
 
-    void saveState();
     uint16_t getStateId();
 };
 

@@ -42,6 +42,5 @@ uint16_t Outputs::getOutputStatusBitmask()
             bitmask += pow(2, i);
         }
     }
-    Serial.printf("bitmask=%d \n", bitmask);
     return bitmask;
 }

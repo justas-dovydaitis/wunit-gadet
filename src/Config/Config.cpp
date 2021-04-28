@@ -3,7 +3,8 @@
 
 #include <LITTLEFS.h>
 
-#define FORMAT_LITTLEFS_IF_FAILED true
+const bool C_FORMAT_LITTLEFS_IF_FAILED = true;
+const char C_CONFIG_NAMESPACE[] = "device.x";
 
 SemaphoreHandle_t Config::_mutex = xSemaphoreCreateMutex();
 
@@ -11,7 +12,7 @@ File Config::getConfigFile(const char *mode)
 {
     File configFile;
 
-    if (!LITTLEFS.begin(FORMAT_LITTLEFS_IF_FAILED))
+    if (!LITTLEFS.begin(C_FORMAT_LITTLEFS_IF_FAILED))
     {
         Serial.println("LITTLEFS Mount Failed");
     }
@@ -128,4 +129,52 @@ ConfigData Config::getConfig()
     return _configData;
 }
 
-Config::Config() {}
+Config::Config()
+{
+    this->begin(C_CONFIG_NAMESPACE);
+}
+
+Config::~Config()
+{
+    this->end();
+}
+
+uint32_t Config::getPasskey()
+{
+    return this->getUInt("passkey");
+}
+
+void Config::setPasskey(uint32_t passkey)
+{
+    this->putUInt("passkey", passkey);
+}
+
+uint16_t Config::getLastState()
+{
+    return this->getUShort("lastState");
+}
+
+void Config::setLastState(uint16_t state)
+{
+    this->putUShort("lastState", state);
+}
+
+int16_t Config::getAngleCompensate()
+{
+    return this->getUShort("angleCompensate");
+}
+
+void Config::setAngleCompensate(int16_t compensate)
+{
+    this->putUShort("angleCompensate", compensate);
+}
+
+uint16_t Config::getLeanAngleBoundary()
+{
+    return this->getUShort("leanAngleBoundary");
+}
+
+void Config::setLeanAngleBoundary(uint16_t angle)
+{
+    this->putUShort("leanAngleBoundary", angle);
+}

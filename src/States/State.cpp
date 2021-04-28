@@ -1,26 +1,18 @@
+#include "Config/Config.h"
 #include "State.h"
-#include <Preferences.h>
 
 AbstractState *pCurrentState = nullptr;
 Preferences prefferences;
 
 void AbstractState::setInitCommand(CommandInterface *pCommand)
 {
-    _pInitCommand = pCommand;
+    _pInitRoutine = pCommand;
 }
 void AbstractState::setDestroyCommand(CommandInterface *pCommand)
 {
-    _pDestroyCommand = pCommand;
+    _pDestroyRoutine = pCommand;
 }
 
-void AbstractState::saveState()
-{
-    prefferences.begin("wunit");
-
-    prefferences.putUShort("lastState", _currentStateId);
-
-    prefferences.end();
-}
 uint16_t AbstractState::getStateId()
 {
     return _currentStateId;
@@ -28,19 +20,19 @@ uint16_t AbstractState::getStateId()
 
 void AbstractState::init()
 {
-    saveState();
-    if (_pInitCommand != nullptr)
+    Config::getInstance()->setLastState(_currentStateId);
+    if (_pInitRoutine != nullptr)
     {
-        _pInitCommand->execute();
+        _pInitRoutine->execute();
     }
     onInit();
 }
 
 void AbstractState::destroy()
 {
-    if (_pDestroyCommand != nullptr)
+    if (_pDestroyRoutine != nullptr)
     {
-        _pDestroyCommand->execute();
+        _pDestroyRoutine->execute();
     }
     onDestroy();
 }

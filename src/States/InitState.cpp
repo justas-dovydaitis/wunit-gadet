@@ -1,4 +1,11 @@
+#include "AnalogSensor/Angle/Angle.h"
+#include "AnalogSensor/Speed/Speed.h"
+#include "AnalogSensor/Tach/Tach.h"
+
 #include "Bluetooth/Bluetooth.h"
+
+#include "Outputs/Outputs.h"
+
 #include "InitState.h"
 #include "IgnitionState.h"
 #include "LockedState.h"
@@ -10,6 +17,17 @@
 void InitState::onInit()
 {
     setupIO();
+
+    /**
+     *  Making sure all the singleton components are initialised
+     * in correct order
+     */
+    Outputs::getInstance();
+    // GSM::getInstance();
+    Angle::getInstance();
+    Speed::getInstance();
+    Tach::getInstance();
+    Bluetooth::getInstance();
 
     uint16_t lastState;
     bool unlocked = Bluetooth::getInstance()->isConnected() || _keyUnlocked;

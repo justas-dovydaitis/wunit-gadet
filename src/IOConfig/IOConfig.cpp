@@ -6,7 +6,6 @@
 
 PCF857x ioExpander(0x20, &Wire, true);
 
-// OutputPin_t outputs[14] = {4, 5, 15, 19, 18, 23, 25, 26, 27, 32, 33, 0, 13, 14};
 
 void setupIO()
 {

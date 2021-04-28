@@ -8,7 +8,6 @@ class RunningState : public AbstractState
 private:
     const uint16_t _currentStateId = StateId_t::RUNNING_STATE;
 
-public:
     void onInit();
     void onDestroy();
 };

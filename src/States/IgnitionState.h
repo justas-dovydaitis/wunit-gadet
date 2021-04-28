@@ -7,8 +7,8 @@ class IgnitionState : public AbstractState
 {
 private:
     const uint16_t _currentStateId = StateId_t::IGNITION_STATE;
+    CommandInterface *_pCrashRoutine = nullptr;
 
-public:
     void onInit();
     void onDestroy();
 };

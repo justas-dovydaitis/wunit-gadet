@@ -15,11 +15,10 @@ std::string makeDashboardString()
     uint16_t speed = Speed::getInstance()->getValue();
     uint16_t tach = Tach::getInstance()->getValue();
 
-    String value = String(angle) + ',' + String(speed) + ',' + String(tach) + ",0";
+    char buff[28];
+    sprintf(buff, "%d,%i,%i,%d", angle, speed, tach, 0);
 
-    Serial.println(value);
-
-    return std::string(value.c_str());
+    return std::string(buff);
 }
 
 void taskUpdateDashboard(void *param)
