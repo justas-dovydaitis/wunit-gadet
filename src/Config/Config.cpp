@@ -54,27 +54,27 @@ void Config::loadConfigFromFile()
 {
     StaticJsonDocument<C_CONFIG_JSON_SIZE> json = getConfigJson<C_CONFIG_JSON_SIZE>();
 
-    setValue<String>(json, _configData.phoneNumber, "phone", "");
-    setValue<String>(json, _configData.proxyPhoneNumber, "proxyPhone", "");
-    setValue<uint16_t>(json, _configData.speedUpdateInterval, "speedInterval", C_DEFAULT_SPEED_UPDATE_INTERVAL);
-    setValue<uint16_t>(json, _configData.tachUpdateInterval, "tachInterval", C_DEFAULT_TACH_UPDATE_INTERVAL);
-    setValue<uint16_t>(json, _configData.odometerUpdateInterval, "odoInterval", C_DEFAULT_ODOMETER_UPDATE_INTERVAL);
-    setValue<uint>(json, _configData.panicLevelAlarmDuration, "highAlarmDuration", C_DEFAULT_PANIC_LEVEL_ALARM_DURATION);
-    setValue<uint>(json, _configData.mediumLevelAlarmDuration, "mediumAlarmDuration", C_DEFAULT_MEDIUM_LEVEL_ALARM_DURATION);
-    setValue<uint>(json, _configData.lowLevelAlarmDuration, "lowAlarmDuration", C_DEFAULT_LOW_LEVEL_ALARM_DURATION);
-    setValue<bool>(json, _configData.callOnPanicLevelAlarm, "callOnHighAlarm", C_DEFAULT_CALL_ON_PANIC_LEVEL_ALARM);
-    setValue<bool>(json, _configData.callOnMediumLevelAlarm, "callOnMediumAlarm", C_DEFAULT_CALL_ON_MEDIUM_LEVEL_ALARM);
-    setValue<bool>(json, _configData.callOnLowLevelAlarm, "callOnLowAlarm", C_DEFAULT_CALL_ON_LOW_LEVEL_ALARM);
-    setValue<bool>(json, _configData.smsOnPanicLevelAlarm, "smsOnHighAlarm", C_DEFAULT_SMS_ON_PANIC_LEVEL_ALARM);
-    setValue<bool>(json, _configData.smsOnMediumLevelAlarm, "smsOnMediumAlarm", C_DEFAULT_SMS_ON_MEDIUM_LEVEL_ALARM);
-    setValue<bool>(json, _configData.smsOnLowLevelAlarm, "smsOnLowAlarm", C_DEFAULT_SMS_ON_LOW_LEVEL_ALARM);
-    setValue<uint16_t>(json, _configData.blinkersTimeToRest, "blinkersRest", C_DEFAULT_BLINKERS_TIME_OFF);
-    setValue<uint16_t>(json, _configData.blinkersTimeToShine, "blinkersShine", C_DEFAULT_BLINKERS_TIME_ON);
-    setValue<bool>(json, _configData.killOnFall, "killOnFall", C_DEFAULT_KILL_ON_FALL);
-    setValue<bool>(json, _configData.smsOnFall, "smsOnFall", C_DEFAULT_SMS_PROXY_ON_FALL);
-    setValue<int8_t>(json, _configData.angleCompensate, "angleCompensate", C_DEFAULT_ANGLE_COMPENSATE);
-    setValue<uint16_t>(json, _configData.angleUpdateInterval, "angleInterval", C_DEFAULT_ANGLE_UPDATE_INTERVAL);
-    setValue<uint8_t>(json, _configData.maxLeanAngle, "maxAngle", C_DEFAULT_MAX_LEAN_ANGLE);
+    // setValue<String>(json, _configData.phoneNumber, "phone", "");
+    // setValue<String>(json, _configData.proxyPhoneNumber, "proxyPhone", "");
+    // setValue<uint16_t>(json, _configData.speedUpdateInterval, "speedInterval", C_DEFAULT_SPEED_UPDATE_INTERVAL);
+    // setValue<uint16_t>(json, _configData.tachUpdateInterval, "tachInterval", C_DEFAULT_TACH_UPDATE_INTERVAL);
+    // setValue<uint16_t>(json, _configData.odometerUpdateInterval, "odoInterval", C_DEFAULT_ODOMETER_UPDATE_INTERVAL);
+    // setValue<uint>(json, _configData.panicLevelAlarmDuration, "highAlarmDuration", C_DEFAULT_PANIC_LEVEL_ALARM_DURATION);
+    // setValue<uint>(json, _configData.mediumLevelAlarmDuration, "mediumAlarmDuration", C_DEFAULT_MEDIUM_LEVEL_ALARM_DURATION);
+    // setValue<uint>(json, _configData.lowLevelAlarmDuration, "lowAlarmDuration", C_DEFAULT_LOW_LEVEL_ALARM_DURATION);
+    // setValue<bool>(json, _configData.callOnPanicLevelAlarm, "callOnHighAlarm", C_DEFAULT_CALL_ON_PANIC_LEVEL_ALARM);
+    // setValue<bool>(json, _configData.callOnMediumLevelAlarm, "callOnMediumAlarm", C_DEFAULT_CALL_ON_MEDIUM_LEVEL_ALARM);
+    // setValue<bool>(json, _configData.callOnLowLevelAlarm, "callOnLowAlarm", C_DEFAULT_CALL_ON_LOW_LEVEL_ALARM);
+    // setValue<bool>(json, _configData.smsOnPanicLevelAlarm, "smsOnHighAlarm", C_DEFAULT_SMS_ON_PANIC_LEVEL_ALARM);
+    // setValue<bool>(json, _configData.smsOnMediumLevelAlarm, "smsOnMediumAlarm", C_DEFAULT_SMS_ON_MEDIUM_LEVEL_ALARM);
+    // setValue<bool>(json, _configData.smsOnLowLevelAlarm, "smsOnLowAlarm", C_DEFAULT_SMS_ON_LOW_LEVEL_ALARM);
+    // setValue<uint16_t>(json, _configData.blinkersTimeToRest, "blinkersRest", C_DEFAULT_BLINKERS_TIME_OFF);
+    // setValue<uint16_t>(json, _configData.blinkersTimeToShine, "blinkersShine", C_DEFAULT_BLINKERS_TIME_ON);
+    // setValue<bool>(json, _configData.killOnFall, "killOnFall", C_DEFAULT_KILL_ON_FALL);
+    // setValue<bool>(json, _configData.smsOnFall, "smsOnFall", C_DEFAULT_SMS_PROXY_ON_FALL);
+    // setValue<int8_t>(json, _configData.angleCompensate, "angleCompensate", C_DEFAULT_ANGLE_COMPENSATE);
+    // setValue<uint16_t>(json, _configData.angleUpdateInterval, "angleInterval", C_DEFAULT_ANGLE_UPDATE_INTERVAL);
+    // setValue<uint8_t>(json, _configData.maxLeanAngle, "maxAngle", C_DEFAULT_MAX_LEAN_ANGLE);
 
     // _configData.phoneNumber = json.containsKey("phone") ? json["phone"].as<String>() : "";
     // _configData.proxyPhoneNumber = json.containsKey("proxyPhone") ? json["proxyPhone"].as<String>() : "";
@@ -122,11 +122,6 @@ Config *Config::getInstance()
     }
     xSemaphoreGive(_mutex);
     return _pInstance;
-}
-
-ConfigData Config::getConfig()
-{
-    return _configData;
 }
 
 Config::Config()

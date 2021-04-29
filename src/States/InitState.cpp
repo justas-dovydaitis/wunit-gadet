@@ -1,6 +1,6 @@
 #include "AnalogSensor/Angle/Angle.h"
 #include "AnalogSensor/Speed/Speed.h"
-#include "AnalogSensor/Tach/Tach.h"
+#include "AnalogSensor/RPM/RPM.h"
 
 #include "Bluetooth/Bluetooth.h"
 
@@ -26,7 +26,7 @@ void InitState::onInit()
     // GSM::getInstance();
     Angle::getInstance();
     Speed::getInstance();
-    Tach::getInstance();
+    RPM::getInstance();
     Bluetooth::getInstance();
 
     uint16_t lastState;

@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <BLEDevice.h>
 
-class BTSecurity : public BLESecurityCallbacks
+class SecurityCallbacks : public BLESecurityCallbacks
 {
     bool onConfirmPIN(uint32_t pin);
     void onPassKeyNotify(uint32_t pass_key);

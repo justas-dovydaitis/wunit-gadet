@@ -34,13 +34,13 @@ class ConfigCallbacks : public BLECharacteristicCallbacks
     void onWrite(BLECharacteristic *pCharacteristic);
 };
 
-class UpdateOTACallbacks : public BLECharacteristicCallbacks
+class OTAUpdateCallbacks : public BLECharacteristicCallbacks
 {
 private:
     Bluetooth *_pBluetooth;
 
 public:
-    UpdateOTACallbacks(Bluetooth *bluetooth);
+    OTAUpdateCallbacks(Bluetooth *bluetooth);
     void onWrite(BLECharacteristic *pCharacteristic);
 };
 

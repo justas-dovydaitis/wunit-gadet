@@ -1,7 +1,7 @@
 #include "Constants.h"
-#include "Tach.h"
+#include "RPM.h"
 
-Tach::Tach()
+RPM::RPM()
 {
     _pinInput = C_TACH_INPUT_PIN;
     _remapRangeToLow = 0;

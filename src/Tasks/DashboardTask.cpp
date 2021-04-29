@@ -1,6 +1,6 @@
 #include "AnalogSensor/Angle/Angle.h"
 #include "AnalogSensor/Speed/Speed.h"
-#include "AnalogSensor/Tach/Tach.h"
+#include "AnalogSensor/RPM/RPM.h"
 
 #include "DashboardTask.h"
 #include "States/State.h"
@@ -13,7 +13,7 @@ std::string makeDashboardString()
 {
     int16_t angle = Angle::getInstance()->getValue();
     uint16_t speed = Speed::getInstance()->getValue();
-    uint16_t tach = Tach::getInstance()->getValue();
+    uint16_t tach = RPM::getInstance()->getValue();
 
     char buff[28];
     sprintf(buff, "%d,%i,%i,%d", angle, speed, tach, 0);

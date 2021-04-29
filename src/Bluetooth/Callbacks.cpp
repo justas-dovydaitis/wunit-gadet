@@ -75,12 +75,12 @@ bool readyFlag = false;
 int bytesReceived = 0;
 int timesWritten = 0;
 
-UpdateOTACallbacks::UpdateOTACallbacks(Bluetooth *pBluetooth)
+OTAUpdateCallbacks::OTAUpdateCallbacks(Bluetooth *pBluetooth)
 {
     _pBluetooth = pBluetooth;
 }
 
-void UpdateOTACallbacks::onWrite(BLECharacteristic *pCharacteristic)
+void OTAUpdateCallbacks::onWrite(BLECharacteristic *pCharacteristic)
 {
     std::string rxData = pCharacteristic->getValue();
     if (!updateFlag)

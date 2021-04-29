@@ -4,12 +4,12 @@
 #include "AnalogSensor/AnalogSensor.h"
 #include "Templates/Singleton.h"
 
-class Tach : public AnalogSensor<uint16_t>, public Singleton<Tach>
+class RPM : public AnalogSensor<uint16_t>, public Singleton<RPM>
 {
-    friend class Singleton<Tach>;
+    friend class Singleton<RPM>;
 
 protected:
-    Tach();
+    RPM();
 };
 
 #endif

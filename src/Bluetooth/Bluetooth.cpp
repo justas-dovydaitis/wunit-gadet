@@ -80,14 +80,14 @@ void Bluetooth::setupBLECharacteristics()
     _pUpdateCharacteristic = _pConfigService->createCharacteristic(C_UPDATE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
     _pUpdateCharacteristic->setAccessPermissions(ESP_GATT_PERM_WRITE_ENC_MITM);
     _pUpdateCharacteristic->addDescriptor(new BLE2902());
-    _pUpdateCharacteristic->setCallbacks(new UpdateOTACallbacks(this));
+    _pUpdateCharacteristic->setCallbacks(new OTAUpdateCallbacks(this));
 }
 
 Bluetooth::Bluetooth()
 {
     BLEDevice::init("WUnit™");
     BLEDevice::setEncryptionLevel(ESP_BLE_SEC_ENCRYPT);
-    BLEDevice::setSecurityCallbacks(new BTSecurity());
+    BLEDevice::setSecurityCallbacks(new SecurityCallbacks());
 
     _pBLEServer = BLEDevice::createServer();
     _pBLEServer->setCallbacks(new ServerCallbacks());
